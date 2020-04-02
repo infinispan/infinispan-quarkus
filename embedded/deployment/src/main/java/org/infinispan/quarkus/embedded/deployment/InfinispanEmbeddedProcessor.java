@@ -1,4 +1,4 @@
-package org.infinispan.quarkus.deployment;
+package org.infinispan.quarkus.embedded.deployment;
 
 import java.util.ArrayList;
 import java.util.Arrays;

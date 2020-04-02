@@ -1,4 +1,4 @@
-package io.quarkus.it.infinispan.embedded;
+package org.infinispan.quarkus.embedded;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;

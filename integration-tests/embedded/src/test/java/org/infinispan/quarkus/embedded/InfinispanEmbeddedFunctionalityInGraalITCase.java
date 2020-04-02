@@ -1,4 +1,4 @@
-package io.quarkus.it.infinispan.embedded;
+package org.infinispan.quarkus.embedded;
 
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.NativeImageTest;

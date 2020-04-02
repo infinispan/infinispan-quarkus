@@ -1,4 +1,4 @@
-package io.quarkus.it.infinispan.embedded;
+package org.infinispan.quarkus.embedded;
 
 import static org.hamcrest.Matchers.is;
 
