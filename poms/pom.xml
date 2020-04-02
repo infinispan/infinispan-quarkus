@@ -2,22 +2,22 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-quarkus-parent</artifactId>
         <version>0.1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
-    <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.infinispan</groupId>
-    <artifactId>infinispan-quarkus-embedded-parent</artifactId>
-    <version>0.1.0-SNAPSHOT</version>
-    <name>Infinispan Quarkus Embedded - Parent</name>
-
+    <artifactId>infinispan-quarkus-poms</artifactId>
     <packaging>pom</packaging>
+
+    <name>Infinispan Quarkus :: POMs</name>
+
     <modules>
-        <module>deployment</module>
-        <module>runtime</module>
+        <module>bom</module>
+        <module>bom-test</module>
+        <module>bom-deployment</module>
     </modules>
 </project>
