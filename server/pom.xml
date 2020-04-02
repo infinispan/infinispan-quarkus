@@ -10,9 +10,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>infinispan-quarkus-embedded-parent</artifactId>
+    <artifactId>infinispan-quarkus-server-parent</artifactId>
     <version>0.1.0-SNAPSHOT</version>
-    <name>Infinispan - Quarkus - Embedded - Parent</name>
+    <name>Infinispan - Quarkus - Server - Parent</name>
 
     <packaging>pom</packaging>
     <modules>

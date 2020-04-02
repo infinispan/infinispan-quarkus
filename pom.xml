@@ -23,6 +23,7 @@
     <modules>
         <module>poms</module>
         <module>embedded</module>
+        <module>server</module>
         <module>integration-tests</module>
     </modules>
 </project>
