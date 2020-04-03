@@ -3,13 +3,14 @@ package org.infinispan.quarkus.server.deployment;
 import java.util.Arrays;
 import java.util.Collection;
 
+import org.apache.logging.log4j.message.DefaultFlowMessageFactory;
+import org.apache.logging.log4j.message.ReusableMessageFactory;
 import org.infinispan.configuration.internal.PrivateGlobalConfigurationBuilder;
 import org.infinispan.protostream.WrappedMessage;
+import org.infinispan.quarkus.embedded.deployment.InfinispanReflectionExcludedBuildItem;
 import org.infinispan.quarkus.server.runtime.InfinispanServerProducer;
 import org.infinispan.quarkus.server.runtime.InfinispanServerRecorder;
 import org.infinispan.quarkus.server.runtime.InfinispanServerRuntimeConfig;
-import org.infinispan.query.affinity.AffinityIndexManager;
-import org.infinispan.query.affinity.ShardAllocationManagerImpl;
 import org.infinispan.rest.RestServer;
 import org.infinispan.server.configuration.ServerConfigurationBuilder;
 import org.infinispan.server.core.configuration.ProtocolServerConfigurationBuilder;
@@ -37,7 +38,6 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageSystemPropertyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
-import io.quarkus.infinispan.embedded.deployment.InfinispanReflectionExcludedBuildItem;
 
 class InfinispanServerProcessor {
    private static final String FEATURE_NAME = "infinispan-server";
@@ -55,9 +55,9 @@ class InfinispanServerProcessor {
       sslNativeSupport.produce(new ExtensionSslNativeSupportBuildItem(FEATURE_NAME));
 
       for (String infinispanArtifact : Arrays.asList("infinispan-server-runtime", "infinispan-server-hotrod",
-            "infinispan-server-core", "infinispan-server-rest", "infinispan-remote-query-server", "infinispan-query",
+            "infinispan-server-core", "infinispan-server-rest",
             // Is there a reason remote-query-client is in dependency tree??
-            "infinispan-objectfilter", "infinispan-query-dsl", "infinispan-remote-query-client", "infinispan-server-memcached",
+            "infinispan-server-memcached",
             // Why is client-hotrod in dependency tree??
             "infinispan-server-router", "infinispan-client-hotrod", "infinispan-cachestore-jdbc", "infinispan-cachestore-rocksdb",
             "infinispan-cachestore-remote", "infinispan-persistence-soft-index", "infinispan-clustered-counter")) {
@@ -70,8 +70,8 @@ class InfinispanServerProcessor {
       // Don't support SASL in JGroups yet - need to fix elytron
       excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(SASL.class.getName())));
       // We don't support Indexing so don't these to reflection
-      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(AffinityIndexManager.class.getName())));
-      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(ShardAllocationManagerImpl.class.getName())));
+//      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(AffinityIndexManager.class.getName())));
+//      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(ShardAllocationManagerImpl.class.getName())));
       excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple("org.infinispan.query.indexmanager.ClusteredSwitchingBackend")));
       excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple("org.infinispan.query.backend.SearchFactoryHandler$CacheListener")));
       // This class is used by JBossMarshalling so we don't need
@@ -104,6 +104,10 @@ class InfinispanServerProcessor {
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, MemcachedServer.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RestServer.class));
 
+      // We instantiate this during logging initialization
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, ReusableMessageFactory.class));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, DefaultFlowMessageFactory.class));
+
       IndexView combinedIndex = combinedIndexBuildItem.getIndex();
       addReflectionForClass(ProtocolServerConfigurationBuilder.class, false, combinedIndex, reflectionClass);
 
@@ -120,6 +124,7 @@ class InfinispanServerProcessor {
             "proto/generated/persistence.multimap.proto",
             "proto/persistence.m.event_logger.proto",
             "proto/generated/persistence.server.core.proto",
+            "proto/generated/persistence.servertasks.proto",
             "proto/generated/persistence.scripting.proto",
             "org/infinispan/query/remote/client/query.proto",
             WrappedMessage.PROTO_FILE

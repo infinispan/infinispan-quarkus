@@ -46,8 +46,8 @@
         </dependency>
 
         <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-infinispan-embedded</artifactId>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-quarkus-embedded</artifactId>
         </dependency>
 
         <dependency>
@@ -62,15 +62,30 @@
             <exclusions>
                 <exclusion>
                     <groupId>org.infinispan</groupId>
-                    <artifactId>infinispan-jboss-marshalling</artifactId>
+                    <artifactId>infinispan-lucene-directory</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.jboss.logmanager</groupId>
-                    <artifactId>jboss-logmanager</artifactId>
+                    <groupId>org.infinispan</groupId>
+                    <artifactId>hibernate-search-serialization-avro</artifactId>
                 </exclusion>
                 <exclusion>
-                    <groupId>org.jboss.slf4j</groupId>
-                    <artifactId>slf4j-jboss-logmanager</artifactId>
+                    <groupId>org.infinispan</groupId>
+                    <artifactId>infinispan-lucene-directory</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.infinispan</groupId>
+                    <artifactId>hibernate-search-engine</artifactId>
+                </exclusion>
+                <!-- This cannot be excluded as org.infinispan.query.impl.InfinispanQueryStatisticsInfo implements it
+                     and is part of the query module.
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-search-engine</artifactId>
+                </exclusion>
+                -->
+                <exclusion>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate-search-serialization-avro</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
