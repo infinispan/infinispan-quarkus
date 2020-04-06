@@ -1,15 +1,23 @@
 package org.infinispan.quarkus.embedded;
 
 import java.util.concurrent.Executor;
+import java.util.function.Predicate;
 
 import org.infinispan.persistence.spi.AdvancedLoadWriteStore;
 import org.infinispan.persistence.spi.InitializationContext;
+import org.infinispan.persistence.spi.MarshallableEntry;
+import org.reactivestreams.Publisher;
 
 // Here to test a custom cache loader configured via XML
 public class TestCacheLoader implements AdvancedLoadWriteStore {
     @Override
     public int size() {
         return 0;
+    }
+
+    @Override
+    public Publisher<MarshallableEntry> entryPublisher(Predicate filter, boolean fetchValue, boolean fetchMetadata) {
+        return null;
     }
 
     @Override
@@ -25,6 +33,16 @@ public class TestCacheLoader implements AdvancedLoadWriteStore {
     @Override
     public void init(InitializationContext ctx) {
 
+    }
+
+    @Override
+    public void write(MarshallableEntry entry) {
+
+    }
+
+    @Override
+    public MarshallableEntry loadEntry(Object key) {
+        return null;
     }
 
     @Override

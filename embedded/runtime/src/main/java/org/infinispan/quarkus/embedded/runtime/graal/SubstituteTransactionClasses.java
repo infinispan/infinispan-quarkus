@@ -4,7 +4,6 @@ import javax.transaction.TransactionManager;
 import javax.transaction.UserTransaction;
 
 import org.infinispan.commons.tx.lookup.TransactionManagerLookup;
-import org.infinispan.configuration.cache.Configuration;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.transaction.lookup.JBossStandaloneJTAManagerLookup;
 import org.infinispan.util.logging.Log;
@@ -30,7 +29,7 @@ final class SubstituteJBossStandaloneJTAManagerLookup implements TransactionMana
     }
 
     @Substitute
-    public void init(Configuration configuration) {
+    public void init(ClassLoader configuration) {
     }
 
     @Override

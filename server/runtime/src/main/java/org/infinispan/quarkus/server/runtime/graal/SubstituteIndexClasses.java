@@ -47,7 +47,7 @@ final class Target_org_infinispan_query_impl_LifecycleManager {
 
    @Substitute
    public void cacheStarting(ComponentRegistry cr, Configuration cfg, String cacheName) {
-      if (cfg.indexing().index().isEnabled()) {
+      if (cfg.indexing().enabled()) {
          throw new UnsupportedOperationException("Indexing is currently disabled in native mode. Cache " + cacheName +
                " has it enabled!");
       }

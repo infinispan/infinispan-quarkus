@@ -16,14 +16,14 @@ public class ServerResourceTest {
       given()
             .when()
                .body("value-187")
-               .post("/rest/quarkus-infinispan-server/key-5")
+               .post("/rest/v2/caches/quarkus-infinispan-server/key-5")
             .then()
                .body(is(""))
                .statusCode(204);
 
       given()
             .when()
-               .get("/rest/quarkus-infinispan-server/key-5")
+               .get("/rest/v2/caches/quarkus-infinispan-server/key-5")
             .then()
                .body(is("value-187"))
                .statusCode(200);

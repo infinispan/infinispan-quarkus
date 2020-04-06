@@ -20,6 +20,7 @@ import org.infinispan.distribution.ch.impl.HashFunctionPartitioner;
 import org.infinispan.factories.impl.ModuleMetadataBuilder;
 import org.infinispan.interceptors.AsyncInterceptor;
 import org.infinispan.marshall.exts.CollectionExternalizer;
+import org.infinispan.marshall.exts.EnumExternalizer;
 import org.infinispan.marshall.exts.MapExternalizer;
 import org.infinispan.notifications.Listener;
 import org.infinispan.persistence.spi.CacheLoader;
@@ -112,6 +113,9 @@ class InfinispanEmbeddedProcessor {
         MapExternalizer.getSupportedPrivateClasses()
                 .forEach(ceClass -> reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, ceClass)));
 
+        new EnumExternalizer().getTypeClasses()
+              .forEach(ceClass -> reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, ceClass)));
+
         Set<DotName> excludedClasses = new HashSet<>();
         excludedReflectionClasses.forEach(excludedBuildItem -> excludedClasses.add(excludedBuildItem.getExcludedClass()));
 
@@ -132,7 +136,8 @@ class InfinispanEmbeddedProcessor {
 
         // We have to include all of our interceptors - technically a custom one is installed before or after ISPN ones
         // If we don't want to support custom interceptors this should be removable
-        addReflectionForClass(AsyncInterceptor.class, true, combinedIndex, reflectiveClass, excludedClasses);
+        // We use reflection to set fields from the properties so those must be exposed as well
+        addReflectionForName(AsyncInterceptor.class.getName(), true, combinedIndex, reflectiveClass, false, true, excludedClasses);
 
         // We use our configuration builders for all of our supported loaders - this also handles user custom configuration
         // builders
