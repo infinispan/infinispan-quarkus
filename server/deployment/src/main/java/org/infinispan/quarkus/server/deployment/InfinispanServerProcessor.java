@@ -20,6 +20,7 @@ import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
 import org.jgroups.protocols.SASL;
+import org.wildfly.security.password.impl.PasswordFactorySpiImpl;
 
 import com.thoughtworks.xstream.security.NoTypePermission;
 
@@ -107,6 +108,8 @@ class InfinispanServerProcessor {
       // We instantiate this during logging initialization
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, ReusableMessageFactory.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, DefaultFlowMessageFactory.class));
+
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, PasswordFactorySpiImpl.class));
 
       IndexView combinedIndex = combinedIndexBuildItem.getIndex();
       addReflectionForClass(ProtocolServerConfigurationBuilder.class, false, combinedIndex, reflectionClass);
