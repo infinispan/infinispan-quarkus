@@ -7,7 +7,7 @@
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-quarkus-poms</artifactId>
-        <version>11.0.0.Dev05-01</version>
+        <version>11.0.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
@@ -17,7 +17,7 @@
     <name>Infinispan Quarkus :: BOM</name>
 
     <properties>
-      <infinispan.version>11.0.0.Dev05</infinispan.version>
+      <infinispan.version>${project.version}</infinispan.version>
     </properties>
 
     <dependencyManagement>
