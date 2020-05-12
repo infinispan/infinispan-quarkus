@@ -16,6 +16,10 @@
 
     <name>Infinispan Quarkus :: BOM</name>
 
+    <properties>
+      <infinispan.version>11.0.0-SNAPSHOT</infinispan.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <!-- External BOMs (Must come first so we can override as needed below) -->
@@ -55,62 +59,67 @@
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-commons</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-core</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-component-annotations</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-server-hotrod</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-server-core</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-tasks</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-remote-query-server</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-remote-query-client</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-query-dsl</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-objectfilter</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-query</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-client-hotrod</artifactId>
-                <version>${project.version}</version>
+                <version>${infinispan.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-server-runtime</artifactId>
+                <version>${infinispan.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
