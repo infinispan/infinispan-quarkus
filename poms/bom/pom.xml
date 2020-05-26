@@ -55,6 +55,12 @@
                 <version>${project.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-quarkus-server-runner</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
             <!-- Infinispan Dependencies -->
             <dependency>
                 <groupId>org.infinispan</groupId>

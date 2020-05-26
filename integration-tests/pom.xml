@@ -21,6 +21,7 @@
 
     <modules>
         <module>embedded</module>
+        <module>server</module>
     </modules>
 
     <build>
