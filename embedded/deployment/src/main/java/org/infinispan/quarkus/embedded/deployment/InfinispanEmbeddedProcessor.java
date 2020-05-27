@@ -23,6 +23,10 @@ import org.infinispan.marshall.exts.CollectionExternalizer;
 import org.infinispan.marshall.exts.EnumExternalizer;
 import org.infinispan.marshall.exts.MapExternalizer;
 import org.infinispan.notifications.Listener;
+import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
+import org.infinispan.notifications.cachelistener.annotation.CacheEntryExpired;
+import org.infinispan.notifications.cachelistener.annotation.CacheEntryModified;
+import org.infinispan.notifications.cachelistener.annotation.CacheEntryRemoved;
 import org.infinispan.persistence.spi.CacheLoader;
 import org.infinispan.persistence.spi.CacheWriter;
 import org.infinispan.quarkus.embedded.runtime.InfinispanEmbeddedProducer;
@@ -161,6 +165,12 @@ class InfinispanEmbeddedProcessor {
                 }
             }
         }
+
+        // Handle the various events required by a cluster
+        reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, CacheEntryCreated.class));
+        reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, CacheEntryExpired.class));
+        reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, CacheEntryModified.class));
+        reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, CacheEntryRemoved.class));
 
         // Infinispan has quite a few classes annotated with SerializeWith and user can use this - in the future
         // it would be nice to not have this required for Infinispan classes
