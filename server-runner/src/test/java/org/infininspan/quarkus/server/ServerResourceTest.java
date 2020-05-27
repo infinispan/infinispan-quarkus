@@ -3,6 +3,9 @@ package org.infininspan.quarkus.server;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
+import java.util.Set;
 
 import org.infinispan.client.hotrod.RemoteCache;
 import org.infinispan.client.hotrod.RemoteCacheManager;
@@ -16,6 +19,8 @@ import io.quarkus.test.junit.QuarkusTest;
 @QuarkusTestResource(ServerResourceTestResource.class)
 @QuarkusTest
 public class ServerResourceTest {
+   public static final int PORT = 8081;
+
    @Test
    public void testSimpleWriteAndRetrieve() {
       given()
@@ -47,16 +52,18 @@ public class ServerResourceTest {
    @Test
    public void testHotRodGetCacheNames() {
       ConfigurationBuilder builder = new ConfigurationBuilder();
-      builder.addServer().host("127.0.0.1").port(11222);
+      builder.addServer().host("127.0.0.1").port(PORT);
 
       RemoteCacheManager remoteCacheManager = new RemoteCacheManager(builder.build());
-      remoteCacheManager.getCacheNames();
+      Set<String> cacheNames = remoteCacheManager.getCacheNames();
+      assertNotNull(cacheNames);
+      assertTrue(cacheNames.contains("quarkus-infinispan-server"));
    }
 
    @Test
    public void testHotRodGetCache() {
       ConfigurationBuilder builder = new ConfigurationBuilder();
-      builder.addServer().host("127.0.0.1").port(11222);
+      builder.addServer().host("127.0.0.1").port(PORT);
 
       RemoteCacheManager remoteCacheManager = new RemoteCacheManager(builder.build());
       assertNotNull(remoteCacheManager.getCache("quarkus-infinispan-server"));
@@ -65,7 +72,7 @@ public class ServerResourceTest {
    @Test
    public void testHotRodInternalCacheOperations() {
       ConfigurationBuilder builder = new ConfigurationBuilder();
-      builder.addServer().host("127.0.0.1").port(11222);
+      builder.addServer().host("127.0.0.1").port(PORT);
 
       RemoteCacheManager remoteCacheManager = new RemoteCacheManager(builder.build());
       RemoteCache<Object, Object> cache = remoteCacheManager.getCache("___protobuf_metadata");
@@ -76,10 +83,10 @@ public class ServerResourceTest {
    @Test
    public void testHotRodCreateCache() {
       ConfigurationBuilder builder = new ConfigurationBuilder();
-      builder.addServer().host("127.0.0.1").port(11222);
+      builder.addServer().host("127.0.0.1").port(PORT);
 
       RemoteCacheManager remoteCacheManager = new RemoteCacheManager(builder.build());
-      XMLStringConfiguration config = new XMLStringConfiguration("<infinispan><cache-container><distributed-cache name=\"default\"/></cache-container></infinispan>");
+      XMLStringConfiguration config = new XMLStringConfiguration("<infinispan><cache-container><distributed-cache name=\"created-cache\"/></cache-container></infinispan>");
       RemoteCache<Object, Object> cache = remoteCacheManager
             .administration()
             .getOrCreateCache("created-cache", config);
