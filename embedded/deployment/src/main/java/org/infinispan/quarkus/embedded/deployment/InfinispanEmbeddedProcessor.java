@@ -21,6 +21,7 @@ import org.infinispan.factories.impl.ModuleMetadataBuilder;
 import org.infinispan.interceptors.AsyncInterceptor;
 import org.infinispan.marshall.exts.CollectionExternalizer;
 import org.infinispan.marshall.exts.EnumExternalizer;
+import org.infinispan.marshall.exts.EnumSetExternalizer;
 import org.infinispan.marshall.exts.MapExternalizer;
 import org.infinispan.notifications.Listener;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryCreated;
@@ -118,6 +119,9 @@ class InfinispanEmbeddedProcessor {
                 .forEach(ceClass -> reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, ceClass)));
 
         new EnumExternalizer().getTypeClasses()
+              .forEach(ceClass -> reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, ceClass)));
+
+        new EnumSetExternalizer().getTypeClasses()
               .forEach(ceClass -> reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, ceClass)));
 
         Set<DotName> excludedClasses = new HashSet<>();
