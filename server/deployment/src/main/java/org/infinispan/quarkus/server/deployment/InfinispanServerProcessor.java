@@ -1,10 +1,13 @@
 package org.infinispan.quarkus.server.deployment;
 
+import java.lang.management.MemoryType;
+import java.lang.management.MemoryUsage;
 import java.util.Arrays;
 import java.util.Collection;
 
 import org.apache.logging.log4j.message.DefaultFlowMessageFactory;
 import org.apache.logging.log4j.message.ReusableMessageFactory;
+import org.infinispan.commons.util.JVMMemoryInfoInfo;
 import org.infinispan.configuration.internal.PrivateGlobalConfigurationBuilder;
 import org.infinispan.protostream.WrappedMessage;
 import org.infinispan.quarkus.embedded.deployment.InfinispanReflectionExcludedBuildItem;
@@ -132,6 +135,11 @@ class InfinispanServerProcessor {
             "org/infinispan/query/remote/client/query.proto",
             WrappedMessage.PROTO_FILE
       ));
+
+      // Add various classes required by the REST resources
+      registerClass(reflectionClass, JVMMemoryInfoInfo.class, true, false, false);
+      registerClass(reflectionClass, MemoryType.class, true, false, true);
+      registerClass(reflectionClass, MemoryUsage.class, true, false, true);
    }
 
    private void addReflectionForClass(Class<?> classToUse, boolean isInterface, IndexView indexView,
@@ -151,6 +159,16 @@ class InfinispanServerProcessor {
       if (!classInfos.isEmpty()) {
          reflectiveClass.produce(new ReflectiveClassBuildItem(methods, fields,
                classInfos.stream().map(ClassInfo::toString).toArray(String[]::new)));
+      }
+   }
+
+   private void registerClass(BuildProducer<ReflectiveClassBuildItem> reflectionClass, Class<?> clazz, boolean methods,
+                              boolean fields, boolean ignoreNested) {
+      reflectionClass.produce(new ReflectiveClassBuildItem(methods, fields, clazz));
+      if (!ignoreNested) {
+         Class<?>[] declaredClasses = clazz.getDeclaredClasses();
+         for (Class<?> declaredClass : declaredClasses)
+            registerClass(reflectionClass, declaredClass, methods, fields, false);
       }
    }
 }
