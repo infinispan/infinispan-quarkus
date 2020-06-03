@@ -2,11 +2,15 @@ package org.infinispan.quarkus.server.deployment;
 
 import java.lang.management.MemoryType;
 import java.lang.management.MemoryUsage;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.ServiceLoader;
 
 import org.apache.logging.log4j.message.DefaultFlowMessageFactory;
 import org.apache.logging.log4j.message.ReusableMessageFactory;
+import org.infinispan.commands.module.ModuleCommandExtensions;
 import org.infinispan.commons.util.JVMMemoryInfoInfo;
 import org.infinispan.configuration.internal.PrivateGlobalConfigurationBuilder;
 import org.infinispan.protostream.WrappedMessage;
@@ -42,6 +46,7 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageSystemPropertyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.ServiceProviderBuildItem;
 
 class InfinispanServerProcessor {
    private static final String FEATURE_NAME = "infinispan-server";
@@ -53,19 +58,38 @@ class InfinispanServerProcessor {
 
    @BuildStep
    void extensionFeatureStuff(BuildProducer<FeatureBuildItem> feature, BuildProducer<AdditionalBeanBuildItem> additionalBeans,
-         BuildProducer<IndexDependencyBuildItem> indexedDependencies, BuildProducer<ExtensionSslNativeSupportBuildItem> sslNativeSupport) {
+                              BuildProducer<IndexDependencyBuildItem> indexedDependencies, BuildProducer<ExtensionSslNativeSupportBuildItem> sslNativeSupport) {
       feature.produce(new FeatureBuildItem(FEATURE_NAME));
       additionalBeans.produce(AdditionalBeanBuildItem.unremovableOf(InfinispanServerProducer.class));
       sslNativeSupport.produce(new ExtensionSslNativeSupportBuildItem(FEATURE_NAME));
 
-      for (String infinispanArtifact : Arrays.asList("infinispan-server-runtime", "infinispan-server-hotrod",
-            "infinispan-server-core", "infinispan-server-rest",
-            // Is there a reason remote-query-client is in dependency tree??
+      for (String infinispanArtifact : Arrays.asList(
+            "infinispan-server-runtime",
+            "infinispan-server-hotrod",
+            "infinispan-server-core",
+            "infinispan-server-rest",
             "infinispan-server-memcached",
+            "infinispan-server-router",
             // Why is client-hotrod in dependency tree??
-            "infinispan-server-router", "infinispan-client-hotrod", "infinispan-cachestore-jdbc", "infinispan-cachestore-rocksdb",
-            "infinispan-cachestore-remote", "infinispan-persistence-soft-index", "infinispan-clustered-counter")) {
+            "infinispan-client-hotrod",
+            "infinispan-cachestore-jdbc",
+            "infinispan-cachestore-rocksdb",
+            "infinispan-cachestore-remote",
+            "infinispan-persistence-soft-index",
+            "infinispan-clustered-counter"
+      )) {
          indexedDependencies.produce(new IndexDependencyBuildItem("org.infinispan", infinispanArtifact));
+      }
+   }
+
+   @BuildStep
+   void loadServices(BuildProducer<ServiceProviderBuildItem> serviceProvider) {
+      // Need to register all the module command extensions as service providers so they can be picked up at runtime
+      ServiceLoader<?> serviceLoader = ServiceLoader.load(ModuleCommandExtensions.class);
+      List<String> interfaceImplementations = new ArrayList<>();
+      serviceLoader.forEach(mmb -> interfaceImplementations.add(mmb.getClass().getName()));
+      if (!interfaceImplementations.isEmpty()) {
+         serviceProvider.produce(new ServiceProviderBuildItem(ModuleCommandExtensions.class.getName(), interfaceImplementations));
       }
    }
 
