@@ -164,6 +164,14 @@ class InfinispanServerProcessor {
       registerClass(reflectionClass, JVMMemoryInfoInfo.class, true, false, false);
       registerClass(reflectionClass, MemoryType.class, true, false, true);
       registerClass(reflectionClass, MemoryUsage.class, true, false, true);
+
+      // Register various Elytron classes
+      String[] elytronClasses = new String[]{
+            "org.wildfly.security.http.digest.DigestMechanismFactory",
+            "org.wildfly.security.http.basic.BasicMechanismFactory",
+            "org.wildfly.security.password.impl.PasswordFactorySpiImpl"
+      };
+      reflectionClass.produce(new ReflectiveClassBuildItem(true, false, elytronClasses));
    }
 
    private void addReflectionForClass(Class<?> classToUse, boolean isInterface, IndexView indexView,
