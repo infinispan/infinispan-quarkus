@@ -15,6 +15,7 @@ import org.infinispan.configuration.cache.IndexingConfigurationBuilder;
 import org.infinispan.factories.ComponentRegistry;
 import org.infinispan.manager.EmbeddedCacheManager;
 import org.infinispan.objectfilter.impl.syntax.parser.ReflectionEntityNamesResolver;
+import org.infinispan.quarkus.embedded.runtime.Util;
 import org.infinispan.query.dsl.embedded.impl.ObjectReflectionMatcher;
 import org.infinispan.query.dsl.embedded.impl.QueryEngine;
 import org.infinispan.query.impl.LifecycleManager;
@@ -34,7 +35,7 @@ class SubstituteIndexClasses {
 final class Target_IndexWorker {
    @Substitute
    public Void apply(EmbeddedCacheManager embeddedCacheManager) {
-      throw new UnsupportedOperationException("Indexing is currently disabled in native mode");
+      throw Util.unsupportedOperationException("Indexing");
    }
 }
 
@@ -48,8 +49,7 @@ final class Target_org_infinispan_query_impl_LifecycleManager {
    @Substitute
    public void cacheStarting(ComponentRegistry cr, Configuration cfg, String cacheName) {
       if (cfg.indexing().enabled()) {
-         throw new UnsupportedOperationException("Indexing is currently disabled in native mode. Cache " + cacheName +
-               " has it enabled!");
+         Util.unsupportedOperationException("Indexing", "Cache " + cacheName + " has it enabled!");
       }
 
       InternalCacheRegistry icr = cr.getGlobalComponentRegistry().getComponent(InternalCacheRegistry.class);
@@ -86,7 +86,7 @@ final class Target_IndexingConfigurationBuilder {
    @Substitute
    public Object index(Index index) {
       if (index != Index.NONE) {
-         throw new UnsupportedOperationException("Indexing is currently disabled in native mode");
+         throw Util.unsupportedOperationException("Indexing");
       }
       attributes.attribute(INDEX).set(index);
       return this;
@@ -94,7 +94,7 @@ final class Target_IndexingConfigurationBuilder {
 
    @Substitute
    public Object addIndexedEntity(Class<?> indexedEntity) {
-      throw new UnsupportedOperationException("Indexing is currently disabled in native mode");
+      throw Util.unsupportedOperationException("Indexing");
    }
 
    @Substitute
