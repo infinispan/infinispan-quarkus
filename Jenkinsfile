@@ -10,7 +10,7 @@ pipeline {
             steps {
                 script {
                     env.MAVEN_HOME = tool('Maven')
-                    env.MAVEN_OPTS = "-Xmx1g -XX:+HeapDumpOnOutOfMemoryError"
+                    env.MAVEN_OPTS = '-Xmx1g -XX:+HeapDumpOnOutOfMemoryError'
                     env.JAVA_HOME = tool('GraalVM 20')
                 }
             }
@@ -24,13 +24,21 @@ pipeline {
 
         stage('Build') {
             steps {
-                sh "$MAVEN_HOME/bin/mvn clean install -Dnative -B -V -e -DskipTests"
+                // First we compile Infinispan SNAPSHOT
+                sh 'git clone --single-branch --branch master --depth 1 https://github.com/infinispan/infinispan.git'
+                dir('infinispan') {
+                    sh '$MAVEN_HOME/bin/mvn clean install -DskipTests'
+                    deleteDir()
+                }
+
+                // Then we build infinispan-quarkus
+                sh '$MAVEN_HOME/bin/mvn clean install -Dnative -B -V -e -DskipTests'
             }
         }
 
         stage('Tests') {
             steps {
-                sh "$MAVEN_HOME/bin/mvn verify -Dnative -B -V -e -Dmaven.test.failure.ignore=true -Dansi.strip=true"
+                sh '$MAVEN_HOME/bin/mvn verify -Dnative -B -V -e -Dmaven.test.failure.ignore=true -Dansi.strip=true'
 
                 // TODO Add StabilityTestDataPublisher after https://issues.jenkins-ci.org/browse/JENKINS-42610 is fixed
                 // Capture target/surefire-reports/*.xml, target/failsafe-reports/*.xml,
@@ -41,8 +49,8 @@ pipeline {
 
                 // Workaround for SUREFIRE-1426: Fail the build if there a fork crashed
                 script {
-                    if (manager.logContains("org.apache.maven.surefire.booter.SurefireBooterForkException:.*")) {
-                        echo "Fork error found"
+                    if (manager.logContains('org.apache.maven.surefire.booter.SurefireBooterForkException:.*')) {
+                        echo 'Fork error found'
                         manager.buildFailure()
                     }
                 }
@@ -56,17 +64,17 @@ pipeline {
 
     post {
         always {
-            sh 'git clean -fdx -e "*.hprof" || echo "git clean failed, exit code $?"'
+            sh 'git clean -ffd -e "*.hprof" || echo "git clean failed, exit code $?"'
         }
 
         failure {
-            echo "post build status: failure"
+            echo 'post build status: failure'
             emailext to: '${DEFAULT_RECIPIENTS}', subject: '${DEFAULT_SUBJECT}', body: '${DEFAULT_CONTENT}'
             sh 'docker kill $(docker ps -q) || true'
         }
 
         success {
-            echo "post build status: success"
+            echo 'post build status: success'
             emailext to: '${DEFAULT_RECIPIENTS}', subject: '${DEFAULT_SUBJECT}', body: '${DEFAULT_CONTENT}'
         }
 
