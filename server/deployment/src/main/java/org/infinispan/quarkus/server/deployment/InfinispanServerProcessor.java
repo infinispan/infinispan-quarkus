@@ -169,7 +169,15 @@ class InfinispanServerProcessor {
       String[] elytronClasses = new String[]{
             "org.wildfly.security.http.digest.DigestMechanismFactory",
             "org.wildfly.security.http.basic.BasicMechanismFactory",
-            "org.wildfly.security.password.impl.PasswordFactorySpiImpl"
+            "org.wildfly.security.password.impl.PasswordFactorySpiImpl",
+            "org.wildfly.security.sasl.digest.DigestClientFactory",
+            "org.wildfly.security.sasl.digest.DigestServerFactory",
+            "org.wildfly.security.sasl.localuser.LocalUserClientFactory",
+            "org.wildfly.security.sasl.localuser.LocalUserServerFactory",
+            "org.wildfly.security.sasl.plain.PlainSaslClientFactory",
+            "org.wildfly.security.sasl.plain.PlainSaslServerFactory",
+            "org.wildfly.security.sasl.scram.ScramSaslClientFactory",
+            "org.wildfly.security.sasl.scram.ScramSaslServerFactory"
       };
       reflectionClass.produce(new ReflectiveClassBuildItem(true, false, elytronClasses));
    }

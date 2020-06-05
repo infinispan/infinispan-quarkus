@@ -7,8 +7,6 @@ import java.security.Principal;
 
 import javax.security.auth.x500.X500Principal;
 
-import org.infinispan.server.hotrod.Authentication;
-import org.infinispan.server.hotrod.HotRodHeader;
 import org.wildfly.security.x500.util.X500PrincipalUtil;
 
 import com.oracle.svm.core.annotate.Alias;
@@ -18,19 +16,6 @@ import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
 public class DisableAuthentication {
-}
-
-@TargetClass(Authentication.class)
-final class Target_Authentication {
-   @Substitute
-   public void authMechList(HotRodHeader header) {
-      throw new UnsupportedOperationException();
-   }
-
-   @Substitute
-   public void auth(HotRodHeader header, String mech, byte[] response) {
-      throw new UnsupportedOperationException();
-   }
 }
 
 @TargetClass(X500PrincipalUtil.class)
