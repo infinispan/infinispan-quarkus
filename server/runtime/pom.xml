@@ -77,6 +77,10 @@
                 </exclusion>
                 <exclusion>
                     <groupId>org.infinispan</groupId>
+                    <artifactId>infinispan-jboss-marshalling</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.infinispan</groupId>
                     <artifactId>hibernate-search-engine</artifactId>
                 </exclusion>
                 <!-- This cannot be excluded as org.infinispan.query.impl.InfinispanQueryStatisticsInfo implements it
