@@ -1,5 +1,6 @@
 package org.infinispan.quarkus.embedded.runtime.graal;
 
+import org.infinispan.quarkus.embedded.runtime.Util;
 import org.jgroups.Address;
 
 import com.oracle.svm.core.annotate.Substitute;
@@ -20,7 +21,6 @@ final class Target_org_jgroups_protocols_VERIFY_SUSPECT {
 
     @Substitute
     protected void verifySuspectWithICMP(Address suspected_mbr) {
-        throw new UnsupportedOperationException("this method is currently unsupported");
+        throw Util.unsupportedOperationException("VERIFY_SUSPECT Protocol");
     }
-
 }

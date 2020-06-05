@@ -18,8 +18,6 @@ import org.infinispan.persistence.spi.InitializationContext;
 import org.infinispan.persistence.spi.PersistenceException;
 
 import com.oracle.svm.core.annotate.Alias;
-import com.oracle.svm.core.annotate.AlwaysInline;
-import com.oracle.svm.core.annotate.AnnotateOriginal;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
@@ -31,7 +29,7 @@ public class SubstituteJBossMarshallingClasses {
 final class Target_MigrationTask {
    @Substitute
    public Integer apply(EmbeddedCacheManager embeddedCacheManager) {
-      throw new UnsupportedOperationException("Migration Task is not supported in native runtime!");
+      throw org.infinispan.quarkus.embedded.runtime.Util.unsupportedOperationException("Migration Task");
    }
 }
 
@@ -68,7 +66,7 @@ final class Target_RemoteStore {
          marshaller = new HotRodEntryMarshaller(ctx.getByteBufferFactory());
       } else if (configuration.rawValues()) {
          // Raw values required JBossMarshaller
-         throw new UnsupportedOperationException("Raw values is not supported in native mode");
+         throw org.infinispan.quarkus.embedded.runtime.Util.unsupportedOperationException("Raw values");
       } else {
          marshaller = ctx.getPersistenceMarshaller();
       }
