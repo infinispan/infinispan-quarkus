@@ -173,6 +173,12 @@ class InfinispanServerProcessor {
       registerClass(reflectionClass, MemoryType.class, true, false, true);
       registerClass(reflectionClass, MemoryUsage.class, true, false, true);
 
+      reflectionClass.produce(new ReflectiveClassBuildItem(true, false, "org.infinispan.health.impl.CacheHealthImpl"));
+      reflectionClass.produce(new ReflectiveClassBuildItem(true, false, "org.infinispan.health.impl.ClusterHealthImpl"));
+      reflectionClass.produce(new ReflectiveClassBuildItem(true, false, "org.infinispan.rest.resources.CacheManagerResource$HealthInfo"));
+      reflectionClass.produce(new ReflectiveClassBuildItem(true, false, "org.infinispan.rest.resources.CacheManagerResource$NamedCacheConfiguration"));
+      reflectionClass.produce(new ReflectiveClassBuildItem(true, true, "org.infinispan.rest.resources.CacheManagerResource$CacheInfo"));
+
       // Register various Elytron classes
       String[] elytronClasses = new String[]{
             "org.wildfly.security.http.digest.DigestMechanismFactory",
