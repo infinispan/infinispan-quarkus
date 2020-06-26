@@ -188,6 +188,9 @@ class InfinispanServerProcessor {
       reflectionClass.produce(new ReflectiveClassBuildItem(true, false, "org.infinispan.rest.resources.CacheManagerResource$NamedCacheConfiguration"));
       reflectionClass.produce(new ReflectiveClassBuildItem(true, true, "org.infinispan.rest.resources.CacheManagerResource$CacheInfo"));
 
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, true, "org.infinispan.rest.resources.ProtobufResource$ProtoSchema"));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, true, "org.infinispan.rest.resources.ProtobufResource$ValidationError"));
+
       // Register various Elytron classes
       String[] elytronClasses = new String[]{
             "org.wildfly.security.http.digest.DigestMechanismFactory",
