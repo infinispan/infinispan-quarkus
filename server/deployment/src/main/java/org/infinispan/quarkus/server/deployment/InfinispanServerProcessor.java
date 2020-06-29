@@ -10,6 +10,7 @@ import java.util.ServiceLoader;
 
 import org.apache.logging.log4j.message.DefaultFlowMessageFactory;
 import org.apache.logging.log4j.message.ReusableMessageFactory;
+import org.infinispan.anchored.configuration.AnchoredKeysConfigurationBuilder;
 import org.infinispan.commands.module.ModuleCommandExtensions;
 import org.infinispan.commons.util.JVMMemoryInfoInfo;
 import org.infinispan.configuration.internal.PrivateGlobalConfigurationBuilder;
@@ -21,11 +22,6 @@ import org.infinispan.quarkus.server.runtime.InfinispanServerRecorder;
 import org.infinispan.quarkus.server.runtime.InfinispanServerRuntimeConfig;
 import org.infinispan.rest.RestServer;
 import org.infinispan.server.configuration.ServerConfigurationBuilder;
-import org.infinispan.server.core.admin.embeddedserver.CacheCreateTask;
-import org.infinispan.server.core.admin.embeddedserver.CacheGetOrCreateTask;
-import org.infinispan.server.core.admin.embeddedserver.CacheNamesTask;
-import org.infinispan.server.core.admin.embeddedserver.CacheReindexTask;
-import org.infinispan.server.core.admin.embeddedserver.CacheRemoveTask;
 import org.infinispan.server.core.configuration.ProtocolServerConfigurationBuilder;
 import org.infinispan.server.hotrod.HotRodServer;
 import org.infinispan.server.memcached.MemcachedServer;
@@ -206,6 +202,8 @@ class InfinispanServerProcessor {
             "org.wildfly.security.sasl.scram.ScramSaslServerFactory"
       };
       reflectionClass.produce(new ReflectiveClassBuildItem(true, false, elytronClasses));
+
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, AnchoredKeysConfigurationBuilder.class));
    }
 
    private void addReflectionForClass(Class<?> classToUse, boolean isInterface, IndexView indexView,
