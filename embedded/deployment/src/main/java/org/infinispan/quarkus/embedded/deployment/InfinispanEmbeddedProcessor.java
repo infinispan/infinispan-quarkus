@@ -55,6 +55,7 @@ import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBundleBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ServiceProviderBuildItem;
 
@@ -71,7 +72,7 @@ class InfinispanEmbeddedProcessor {
             BuildProducer<ServiceProviderBuildItem> serviceProvider, BuildProducer<AdditionalBeanBuildItem> additionalBeans,
             BuildProducer<NativeImageResourceBuildItem> resources, CombinedIndexBuildItem combinedIndexBuildItem,
             List<InfinispanReflectionExcludedBuildItem> excludedReflectionClasses,
-            ApplicationIndexBuildItem applicationIndexBuildItem) {
+            ApplicationIndexBuildItem applicationIndexBuildItem, BuildProducer<NativeImageResourceBundleBuildItem> bundles) {
         feature.produce(new FeatureBuildItem(FeatureBuildItem.INFINISPAN_EMBEDDED));
 
         additionalBeans.produce(AdditionalBeanBuildItem.unremovableOf(InfinispanEmbeddedProducer.class));
@@ -112,6 +113,8 @@ class InfinispanEmbeddedProcessor {
                 "com.sun.xml.bind.v2.ContextFactory",
                 "com.sun.xml.internal.bind.v2.ContextFactory",
                 "com.sun.xml.internal.stream.XMLInputFactoryImpl"));
+
+        bundles.produce(new NativeImageResourceBundleBuildItem("com.sun.org.apache.xerces.internal.impl.msg.XMLMessages"));
 
         CollectionExternalizer.getSupportedPrivateClasses()
                 .forEach(ceClass -> reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, ceClass)));
