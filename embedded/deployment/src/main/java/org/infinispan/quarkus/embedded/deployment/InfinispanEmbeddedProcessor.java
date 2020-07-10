@@ -73,7 +73,7 @@ class InfinispanEmbeddedProcessor {
             BuildProducer<NativeImageResourceBuildItem> resources, CombinedIndexBuildItem combinedIndexBuildItem,
             List<InfinispanReflectionExcludedBuildItem> excludedReflectionClasses,
             ApplicationIndexBuildItem applicationIndexBuildItem, BuildProducer<NativeImageResourceBundleBuildItem> bundles) {
-        feature.produce(new FeatureBuildItem(FeatureBuildItem.INFINISPAN_EMBEDDED));
+        feature.produce(new FeatureBuildItem("infinispan-embedded"));
 
         additionalBeans.produce(AdditionalBeanBuildItem.unremovableOf(InfinispanEmbeddedProducer.class));
 
