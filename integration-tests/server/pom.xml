@@ -121,7 +121,8 @@
                         <dependency>org.infinispan:infinispan-server-tests</dependency>
                     </dependenciesToScan>
                     <includes>
-                        <include>org.infinispan.server.functional.RollingUpgradeIT</include>
+<!--                        Disabled due to https://github.com/infinispan/infinispan-quarkus/issues/20-->
+<!--                        <include>org.infinispan.server.functional.RollingUpgradeIT</include>-->
                         <include>org.infinispan.server.security.authentication.AuthenticationIT</include>
                         <include>org.infinispan.quarkus.server.*.class</include>
                     </includes>
