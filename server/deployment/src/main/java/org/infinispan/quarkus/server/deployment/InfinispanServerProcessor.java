@@ -111,8 +111,6 @@ class InfinispanServerProcessor {
       // We don't support Indexing so don't these to reflection
 //      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(AffinityIndexManager.class.getName())));
 //      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(ShardAllocationManagerImpl.class.getName())));
-      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple("org.infinispan.query.indexmanager.ClusteredSwitchingBackend")));
-      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple("org.infinispan.query.backend.SearchFactoryHandler$CacheListener")));
       // This class is used by JBossMarshalling so we don't need
       excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple("org.infinispan.persistence.remote.upgrade.MigrationTask$RemoveListener")));
 

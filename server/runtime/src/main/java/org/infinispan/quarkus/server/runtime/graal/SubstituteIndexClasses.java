@@ -14,10 +14,12 @@ import org.infinispan.configuration.cache.IndexingConfiguration;
 import org.infinispan.configuration.cache.IndexingConfigurationBuilder;
 import org.infinispan.factories.ComponentRegistry;
 import org.infinispan.manager.EmbeddedCacheManager;
+import org.infinispan.objectfilter.impl.ql.PropertyPath;
 import org.infinispan.objectfilter.impl.syntax.parser.ReflectionEntityNamesResolver;
 import org.infinispan.quarkus.embedded.runtime.Util;
 import org.infinispan.query.dsl.embedded.impl.ObjectReflectionMatcher;
 import org.infinispan.query.dsl.embedded.impl.QueryEngine;
+import org.infinispan.query.dsl.embedded.impl.SearchQueryMaker;
 import org.infinispan.query.impl.LifecycleManager;
 import org.infinispan.query.impl.massindex.IndexWorker;
 import org.infinispan.registry.InternalCacheRegistry;
@@ -100,5 +102,13 @@ final class Target_IndexingConfigurationBuilder {
    @Substitute
    private Set<Class<?>> indexedEntities() {
       return Collections.emptySet();
+   }
+}
+
+@TargetClass(SearchQueryMaker.class)
+final class Target_SearchQueryMaker {
+   @Substitute
+   private boolean isMultiTermText(PropertyPath<?> propertyPath, String text) {
+      return false;
    }
 }

@@ -132,6 +132,11 @@
                 <artifactId>infinispan-anchored-keys</artifactId>
                 <version>${infinispan.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-search-mapper</artifactId>
+                <version>${infinispan.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>
