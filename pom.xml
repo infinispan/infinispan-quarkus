@@ -16,7 +16,7 @@
     <packaging>pom</packaging>
 
     <properties>
-        <quarkus.version>1.6.1.Final</quarkus.version>
+        <quarkus.version>1.7.0.Final</quarkus.version>
     </properties>
 
     <modules>

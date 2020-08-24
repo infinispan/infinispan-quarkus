@@ -17,7 +17,7 @@
         <dependencies>
             <dependency>
                 <groupId>org.infinispan</groupId>
-                <artifactId>infinispan-quarkus-bom-deployment</artifactId>
+                <artifactId>infinispan-quarkus-bom</artifactId>
                 <version>${project.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
