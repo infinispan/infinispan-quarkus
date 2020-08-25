@@ -51,18 +51,3 @@ final class Substitute_NettyTransport {
 @Delete
 @TargetClass(className = "org.infinispan.server.core.transport.EPollAvailable")
 final class Delete_org_infinispan_client_hotrod_impl_transport_netty_EPollAvailable { }
-
-@Substitute
-@TargetClass(className = "org.infinispan.client.hotrod.impl.transport.netty.TransportHelper")
-final class SubstituteTransportHelper {
-
-   @Substitute
-   static Class<? extends SocketChannel> socketChannel() {
-      return NioSocketChannel.class;
-   }
-
-   @Substitute
-   static EventLoopGroup createEventLoopGroup(int maxExecutors, ExecutorService executorService) {
-      return new NioEventLoopGroup(maxExecutors, executorService);
-   }
-}
