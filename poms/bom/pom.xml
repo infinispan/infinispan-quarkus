@@ -39,6 +39,12 @@
             </dependency>
             <dependency>
                 <groupId>org.infinispan</groupId>
+                <artifactId>infinispan-quarkus-cli</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-quarkus-embedded</artifactId>
                 <version>${project.version}</version>
             </dependency>
