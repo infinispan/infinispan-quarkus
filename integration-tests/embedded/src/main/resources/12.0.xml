@@ -1,9 +1,9 @@
 <infinispan
       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-      xsi:schemaLocation="urn:infinispan:config:10.1 http://www.infinispan.org/schemas/infinispan-config-10.1.xsd
+      xsi:schemaLocation="urn:infinispan:config:10.1 http://www.infinispan.org/schemas/infinispan-config-12.0.xsd
                           urn:org:jgroups http://www.jgroups.org/schema/jgroups-4.0.xsd"
-      xmlns="urn:infinispan:config:10.1"
-      xmlns:ispn="urn:infinispan:config:10.1">
+      xmlns="urn:infinispan:config:12.0"
+      xmlns:ispn="urn:infinispan:config:12.0">
    <jgroups transport="org.infinispan.remoting.transport.jgroups.JGroupsTransport">
       <!-- Load external JGroups stacks -->
       <stack-file name="udp-test" path="stacks/udp.xml"/>
@@ -103,10 +103,10 @@
       <scheduled-thread-pool name="infinispan-expiration" thread-factory="infinispan-factory" />
    </threads>
 
-   <cache-container name="maximal" aliases="alias1 alias2" default-cache="local" async-executor="async-infinispan" expiration-executor="infinispan-expiration"
-                    jndi-name="java:global/infinispan/maximal"  state-transfer-executor="infinispan-state-transfer" listener-executor="infinispan-listener"
-                    persistence-executor="infinispan-cached" module="org.infinispan" statistics="true" shutdown-hook="DONT_REGISTER" zero-capacity-node="false">
-       <transport cluster="maximal-cluster" executor="infinispan-transport" remote-command-executor="infinispan-cached" lock-timeout="120000" stack="xsite" node-name="a-node" machine="a" rack="b" site="c"
+   <cache-container name="maximal" default-cache="local" expiration-executor="infinispan-expiration"
+                    listener-executor="infinispan-listener"
+                    statistics="true" shutdown-hook="DONT_REGISTER" zero-capacity-node="false">
+       <transport cluster="maximal-cluster" lock-timeout="120000" stack="xsite" node-name="a-node" machine="a" rack="b" site="c"
                  initial-cluster-size="1" initial-cluster-timeout="30000" />
       <!--
       <security>
@@ -122,15 +122,15 @@
       <!--
       <serialization marshaller="org.infinispan.marshall.TestObjectStreamMarshaller" version="1.0">
       -->
-      <serialization version="1.0">
+      <serialization>
          <advanced-externalizer class="org.infinispan.quarkus.embedded.TestAdvancedExternalizer$IdViaConfigObj$Externalizer" id="9001" />
          <advanced-externalizer class="org.infinispan.quarkus.embedded.TestAdvancedExternalizer$IdViaAnnotationObj$Externalizer" id="9002" />
-         <white-list>
+         <allow-list>
             <class>org.infinispan.test.data.Person</class>
             <regex>org.infinispan.test.data.*</regex>
-         </white-list>
+         </allow-list>
       </serialization>
-      <jmx domain="my-domain" mbean-server-lookup="org.infinispan.quarkus.embedded.CustomMBeanServerLookup" duplicate-domains="true">
+      <jmx domain="my-domain" mbean-server-lookup="org.infinispan.quarkus.embedded.CustomMBeanServerLookup">
          <property name="key">value</property>
       </jmx>
       <global-state>
@@ -139,7 +139,7 @@
          <temporary-location path="quarkus-tmpPath" relative-to="java.io.tmpdir" />
          <overlay-configuration-storage />
       </global-state>
-      <local-cache name="local" module="org.infinispan" statistics="true">
+      <local-cache name="local" statistics="true">
          <encoding>
             <key media-type="application/x-java-object"/>
             <value media-type="application/x-java-object"/>
@@ -148,8 +148,8 @@
          <transaction mode="FULL_XA" stop-timeout="60000" locking="OPTIMISTIC" complete-timeout="34000" reaper-interval="35000" auto-commit="true" />
          <expiration interval="10000" lifespan="10000" max-idle="10000"/>
          <persistence passivation="false" availability-interval="2000" connection-attempts="5" connection-interval="100">
-            <file-store path="quarkus-persistentPath" relative-to="java.io.tmpdir" shared="false" fetch-state="false" preload="true" purge="false">
-               <write-behind modification-queue-size="2048" thread-pool-size="1" fail-silently="true"/>
+            <file-store path="quarkus-persistentPath" shared="false" fetch-state="false" preload="true" purge="false">
+               <write-behind modification-queue-size="2048" fail-silently="true"/>
             </file-store>
          </persistence>
          <memory>
@@ -176,7 +176,7 @@
          <transaction mode="BATCH" stop-timeout="61000" locking="PESSIMISTIC"/>
          <expiration interval="11000" lifespan="12" max-idle="12"/>
          <persistence>
-            <cluster-loader remote-timeout="35000" preload="false"/>
+            <cluster-loader remote-timeout="35000" preload="false" segmented="false"/>
          </persistence>
          <memory>
             <object size="21000"/>
@@ -218,7 +218,7 @@
       <replicated-cache name="capedwarf-metadata" mode="SYNC">
          <transaction mode="NON_XA"/>
          <persistence passivation="true">
-            <store class="org.infinispan.quarkus.embedded.TestCacheLoader" />
+            <store class="org.infinispan.quarkus.embedded.TestCacheLoader" segmented="false" />
          </persistence>
          <memory>
             <object size="-1"/>
@@ -320,13 +320,13 @@
       </local-cache>
 
       <!-- template configurations -->
-      <local-cache-configuration name="local-template" module="org.infinispan" statistics="true">
+      <local-cache-configuration name="local-template" statistics="true">
          <locking acquire-timeout="30000" concurrency-level="2000" isolation="NONE" striping="true"/>
          <transaction mode="FULL_XA" stop-timeout="60000" locking="OPTIMISTIC" complete-timeout="34000" reaper-interval="35000" auto-commit="true" />
          <expiration interval="10000" lifespan="10" max-idle="10"/>
          <persistence passivation="false">
-            <file-store path="quarkus-persistentPath" relative-to="java.io.tmpdir" shared="false" fetch-state="false" preload="true" purge="false">
-               <write-behind modification-queue-size="2048" thread-pool-size="1" />
+            <file-store path="quarkus-persistentPath" shared="false" fetch-state="false" preload="true" purge="false">
+               <write-behind modification-queue-size="2048" />
             </file-store>
          </persistence>
          <memory>
@@ -354,7 +354,7 @@
          <transaction mode="BATCH" stop-timeout="61000" locking="PESSIMISTIC"/>
          <expiration interval="11000" lifespan="12" max-idle="12"/>
          <persistence>
-            <cluster-loader remote-timeout="35000" preload="false"/>
+            <cluster-loader remote-timeout="35000" preload="false" segmented="false"/>
          </persistence>
          <memory>
             <object size="21000"/>
