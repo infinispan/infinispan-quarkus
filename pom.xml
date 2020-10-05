@@ -11,7 +11,7 @@
 
     <groupId>org.infinispan</groupId>
     <artifactId>infinispan-quarkus-parent</artifactId>
-    <version>11.0.4.Final</version>
+    <version>11.0.5-SNAPSHOT</version>
     <name>Infinispan Quarkus - Parent pom</name>
     <packaging>pom</packaging>
 
