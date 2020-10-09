@@ -57,14 +57,6 @@
             <artifactId>infinispan-server-tests</artifactId>
             <type>test-jar</type>
         </dependency>
-        <dependency>
-            <groupId>org.infinispan.protostream</groupId>
-            <artifactId>sample-domain-definition</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.infinispan.protostream</groupId>
-            <artifactId>sample-domain-implementation</artifactId>
-        </dependency>
     </dependencies>
 
     <build>
