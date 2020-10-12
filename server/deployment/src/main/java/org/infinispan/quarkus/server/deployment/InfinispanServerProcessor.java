@@ -8,8 +8,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.ServiceLoader;
 
-import org.apache.logging.log4j.message.DefaultFlowMessageFactory;
-import org.apache.logging.log4j.message.ReusableMessageFactory;
 import org.infinispan.anchored.configuration.AnchoredKeysConfigurationBuilder;
 import org.infinispan.commands.module.ModuleCommandExtensions;
 import org.infinispan.commons.util.JVMMemoryInfoInfo;
@@ -142,8 +140,8 @@ class InfinispanServerProcessor {
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RestServer.class));
 
       // We instantiate this during logging initialization
-      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, ReusableMessageFactory.class));
-      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, DefaultFlowMessageFactory.class));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, "org.apache.logging.log4j.message.ReusableMessageFactory"));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, "org.apache.logging.log4j.message.DefaultFlowMessageFactory"));
 
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, PasswordFactorySpiImpl.class));
 
