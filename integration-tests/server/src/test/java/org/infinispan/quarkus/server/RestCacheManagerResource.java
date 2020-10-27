@@ -50,7 +50,7 @@ public class RestCacheManagerResource {
       JsonNode root = mapper.readTree(restResponse.getBody());
 
       JsonNode clusterHealth = root.get("cluster_health");
-      assertEquals("cluster", clusterHealth.get("cluster_name").asText());
+      assertEquals(RestCacheManagerResource.class.getName(), clusterHealth.get("cluster_name").asText());
       assertEquals("HEALTHY", clusterHealth.get("health_status").asText());
       assertEquals(2, clusterHealth.get("number_of_nodes").asInt());
       assertEquals(2, clusterHealth.withArray("node_names").size());
