@@ -12,6 +12,8 @@ import org.infinispan.anchored.configuration.AnchoredKeysConfigurationBuilder;
 import org.infinispan.commands.module.ModuleCommandExtensions;
 import org.infinispan.commons.util.JVMMemoryInfoInfo;
 import org.infinispan.configuration.internal.PrivateGlobalConfigurationBuilder;
+import org.infinispan.lock.configuration.ClusteredLockConfigurationBuilder;
+import org.infinispan.lock.configuration.ClusteredLockManagerConfigurationBuilder;
 import org.infinispan.manager.CacheManagerInfo;
 import org.infinispan.protostream.WrappedMessage;
 import org.infinispan.quarkus.embedded.deployment.InfinispanReflectionExcludedBuildItem;
@@ -89,7 +91,8 @@ class InfinispanServerProcessor {
             "infinispan-cachestore-rocksdb",
             "infinispan-cachestore-remote",
             "infinispan-persistence-soft-index",
-            "infinispan-clustered-counter"
+            "infinispan-clustered-counter",
+            "infinispan-clustered-lock"
       )) {
          indexedDependencies.produce(new IndexDependencyBuildItem("org.infinispan", infinispanArtifact));
       }
@@ -204,6 +207,7 @@ class InfinispanServerProcessor {
       reflectionClass.produce(new ReflectiveClassBuildItem(true, false, elytronClasses));
 
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, AnchoredKeysConfigurationBuilder.class));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, ClusteredLockManagerConfigurationBuilder.class));
    }
 
    private void addReflectionForClass(Class<?> classToUse, boolean isInterface, IndexView indexView,
