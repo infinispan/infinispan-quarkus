@@ -162,6 +162,7 @@ class InfinispanServerProcessor {
             "proto/generated/persistence.rocksdb.proto",
             "proto/generated/persistence.counters.proto",
             "proto/generated/persistence.query.proto",
+            "proto/generated/persistence.query.core.proto",
             "proto/generated/persistence.remote_query.proto",
             "proto/generated/persistence.memcached.proto",
             "proto/generated/persistence.event_logger.proto",
