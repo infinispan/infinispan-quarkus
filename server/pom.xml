@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-quarkus-parent</artifactId>
-        <version>11.0.5-SNAPSHOT</version>
+        <version>11.0.5.Final</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>infinispan-quarkus-server-parent</artifactId>
-    <version>11.0.5-SNAPSHOT</version>
+    <version>11.0.5.Final</version>
     <name>Infinispan - Quarkus - Server - Parent</name>
 
     <packaging>pom</packaging>
