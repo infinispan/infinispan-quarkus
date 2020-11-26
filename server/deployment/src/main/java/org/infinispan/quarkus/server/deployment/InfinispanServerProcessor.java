@@ -66,12 +66,6 @@ class InfinispanServerProcessor {
    }
 
    @BuildStep
-   void reinitializeAtRuntime(BuildProducer<RuntimeReinitializedClassBuildItem> runtimeReinitialized) {
-      // The class contains a SecureRandom which must be reinitialized at runtime
-      runtimeReinitialized.produce(new RuntimeReinitializedClassBuildItem(DnsClient.class.getName()));
-   }
-
-   @BuildStep
    void extensionFeatureStuff(BuildProducer<FeatureBuildItem> feature, BuildProducer<AdditionalBeanBuildItem> additionalBeans,
                               BuildProducer<IndexDependencyBuildItem> indexedDependencies, BuildProducer<ExtensionSslNativeSupportBuildItem> sslNativeSupport) {
       feature.produce(new FeatureBuildItem(FEATURE_NAME));
