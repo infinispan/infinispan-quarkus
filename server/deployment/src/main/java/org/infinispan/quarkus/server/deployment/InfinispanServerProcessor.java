@@ -197,7 +197,11 @@ class InfinispanServerProcessor {
             "org.wildfly.security.sasl.plain.PlainSaslClientFactory",
             "org.wildfly.security.sasl.plain.PlainSaslServerFactory",
             "org.wildfly.security.sasl.scram.ScramSaslClientFactory",
-            "org.wildfly.security.sasl.scram.ScramSaslServerFactory"
+            "org.wildfly.security.sasl.scram.ScramSaslServerFactory",
+            "org.wildfly.security.credential.KeyPairCredential",
+            "org.wildfly.security.credential.PasswordCredential",
+            "org.wildfly.security.credential.SecretKeyCredential",
+            "org.wildfly.security.credential.X509CertificateChainPrivateCredential",
       };
       reflectionClass.produce(new ReflectiveClassBuildItem(true, false, elytronClasses));
 
