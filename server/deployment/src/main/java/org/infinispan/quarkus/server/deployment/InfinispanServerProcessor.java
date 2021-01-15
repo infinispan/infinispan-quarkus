@@ -12,7 +12,6 @@ import org.infinispan.anchored.configuration.AnchoredKeysConfigurationBuilder;
 import org.infinispan.commands.module.ModuleCommandExtensions;
 import org.infinispan.commons.util.JVMMemoryInfoInfo;
 import org.infinispan.configuration.internal.PrivateGlobalConfigurationBuilder;
-import org.infinispan.lock.configuration.ClusteredLockConfigurationBuilder;
 import org.infinispan.lock.configuration.ClusteredLockManagerConfigurationBuilder;
 import org.infinispan.manager.CacheManagerInfo;
 import org.infinispan.protostream.WrappedMessage;
@@ -32,7 +31,6 @@ import org.jboss.jandex.IndexView;
 import org.jgroups.protocols.SASL;
 import org.wildfly.security.password.impl.PasswordFactorySpiImpl;
 
-import com.sun.jndi.dns.DnsClient;
 import com.thoughtworks.xstream.security.NoTypePermission;
 
 import io.netty.handler.codec.http2.CleartextHttp2ServerUpgradeHandler;
@@ -51,7 +49,6 @@ import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageSystemPropertyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
-import io.quarkus.deployment.builditem.nativeimage.RuntimeReinitializedClassBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ServiceProviderBuildItem;
 
 class InfinispanServerProcessor {
