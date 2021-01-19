@@ -17,7 +17,7 @@
     <name>Infinispan Quarkus :: BOM</name>
 
     <properties>
-      <infinispan.version>${project.version}</infinispan.version>
+      <elytron.version>1.13.2.Final</elytron.version>
     </properties>
 
     <dependencyManagement>
@@ -71,6 +71,12 @@
                 <groupId>org.infinispan</groupId>
                 <artifactId>infinispan-quarkus-server-runner</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.wildfly.security</groupId>
+                <artifactId>wildfly-elytron</artifactId>
+                <version>${elytron.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
