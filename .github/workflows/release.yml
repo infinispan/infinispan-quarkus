@@ -1,0 +1,142 @@
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "The branch to checkout when cutting the release."
+        required: true
+        default: "master"
+      releaseVersion:
+        description: "Release version."
+        required: true
+        default: "X.Y.Z"
+      developmentVersion:
+        description: "Next development version."
+        required: true
+        default: "X.Y.Z-SNAPSHOT"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    outputs:
+      upload_url: ${{ steps.release.outputs.upload_url }}
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+        with:
+          ref: ${{ github.event.inputs.branch }}
+
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+          settings-path: ${{ github.workspace }}
+
+      - name: Configure Git User
+        run: |
+          git config user.email "infinispan@infinispan.org"
+          git config user.name "Infinispan"
+
+      - name: Checkout Infinispan SNAPSHOT
+        uses: actions/checkout@v2
+        with:
+          repository: infinispan/infinispan
+          path: infinispan
+
+      - name: Compile Infinispan SNAPSHOT
+        run: mvn -B -V install -s maven-settings.xml -DskipTests=true -am -pl server/tests
+        working-directory: infinispan
+
+      - name: Tag release
+        run: |
+          mvn -B -V versions:set -DnewVersion=${{ github.event.inputs.releaseVersion }} -DprocessAllModules=true versions:commit
+          git commit -a -m "Releasing ${{ github.event.inputs.releaseVersion }}"
+          git tag ${{ github.event.inputs.releaseVersion }}
+          mvn -B -V versions:set -DnewVersion=${{ github.event.inputs.developmentVersion }} -DprocessAllModules=true versions:commit
+          git commit -a -m "Next version ${{ github.event.inputs.developmentVersion }}"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
+          tags: true
+
+      - id: release
+        name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.event.inputs.releaseVersion }}
+          release_name: ${{ github.event.inputs.releaseVersion }}
+
+  build:
+    needs: release
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            asset_name: linux-amd64
+            gu_binary: gu
+          - os: macos-latest
+            asset_name: darwin-amd64
+            gu_binary: gu
+          - os: windows-latest
+            asset_name: windows-amd64
+            gu_binary: gu.cmd
+    steps:
+    - uses: actions/checkout@v2
+
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Add msbuild to PATH
+      uses: microsoft/setup-msbuild@v1.0.2
+
+    - name: Install graalvm
+      uses: DeLaGuardo/setup-graalvm@3.1
+      with:
+        graalvm-version: 20.3.0.java11
+
+    - name: Install native-image
+      run: ${{ matrix.gu_binary }} install native-image
+
+    - name: Checkout Release Tag
+      uses: actions/checkout@v2
+      with:
+        ref: ${{ github.event.inputs.releaseVersion }}
+
+    - if: ${{ matrix.os == 'windows-latest' }}
+      name: Build native executable
+      run: |
+        call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
+        mvnw.cmd package -Pdistribution -Dnative -am -pl cli
+      shell: cmd
+
+    - if: ${{ matrix.os != 'windows-latest' }}
+      name: Build native executable
+      run: ./mvnw package -Pdistribution -Dnative -am -pl cli
+
+    - name: Upload CLI native executable
+      id: upload-cli-native-executable
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        upload_url:  ${{ needs.release.outputs.upload_url }}
+        asset_path: ./cli/target/infinispan-quarkus-cli-${{ github.event.inputs.releaseVersion }}.zip
+        asset_name: infinispan-cli-${{ github.event.inputs.releaseVersion }}-${{ matrix.asset_name }}.zip
+        asset_content_type: application/zip
