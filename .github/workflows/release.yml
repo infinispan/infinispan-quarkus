@@ -7,6 +7,9 @@ on:
         description: "The branch to checkout when cutting the release."
         required: true
         default: "master"
+      currentVersion:
+        description: "The current SNAPSHOT version of the branch to cut the release from."
+        required: true
       releaseVersion:
         description: "Release version."
         required: true
@@ -48,22 +51,12 @@ jobs:
           git config user.email "infinispan@infinispan.org"
           git config user.name "Infinispan"
 
-      - name: Checkout Infinispan SNAPSHOT
-        uses: actions/checkout@v2
-        with:
-          repository: infinispan/infinispan
-          path: infinispan
-
-      - name: Compile Infinispan SNAPSHOT
-        run: mvn -B -V install -s maven-settings.xml -DskipTests=true -am -pl server/tests
-        working-directory: infinispan
-
       - name: Tag release
         run: |
-          mvn -B -V versions:set -DnewVersion=${{ github.event.inputs.releaseVersion }} -DprocessAllModules=true versions:commit
+          find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.currentVersion }}<\/version>/<version>${{ github.event.inputs.releaseVersion }}<\/version>/g'
           git commit -a -m "Releasing ${{ github.event.inputs.releaseVersion }}"
           git tag ${{ github.event.inputs.releaseVersion }}
-          mvn -B -V versions:set -DnewVersion=${{ github.event.inputs.developmentVersion }} -DprocessAllModules=true versions:commit
+          find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.releaseVersion }}<\/version>/<version>${{ github.event.inputs.developmentVersion }}<\/version>/g'
           git commit -a -m "Next version ${{ github.event.inputs.developmentVersion }}"
 
       - name: Push changes
