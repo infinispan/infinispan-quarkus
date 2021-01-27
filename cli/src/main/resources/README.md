@@ -23,7 +23,7 @@ You can use the Infinispan CLI as `kubectl` client plugin, which enables the CLI
 Integrating with `kubectl` lets you install and remove the Infinispan Operator, create and delete Infinispan clusters, and obtain information about various resources.
 
 To install the CLI as a `kubectl` plugin, do the following:
-1. Copy the `ispn-cli`, or create a symbolic link, to a file named "kubectl-infinispan".
+1. Copy the `ispn-cli`, or create a hard link, to a file named "kubectl-infinispan".
 2. Add `kubectl-infinispan` to your `PATH`.
 3. Run `kubectl plugin list` to verify the CLI is added as a plugin.
 4. Run `kubectl infinispan --help` to start using the CLI plugin.
@@ -38,13 +38,13 @@ kubectl infinispan install
 #### Creating  Infinispan Clusters
 ```
 kubectl infinispan create --replicas=2 myinfinispan
-kubectl infinispan ls
+kubectl infinispan get
 ```
 
 #### Removing Clusters
 ```
-kubectl infinispan rm myinfinispan
-kubectl infinispan ls
+kubectl infinispan delete myinfinispan
+kubectl infinispan get
 ```
 
 #### Removing the Operator
