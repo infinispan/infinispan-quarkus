@@ -32,6 +32,10 @@
     <dependencies>
         <dependency>
             <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-quarkus-cli</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.infinispan</groupId>
             <artifactId>infinispan-quarkus-server-runner</artifactId>
         </dependency>
         <dependency>
@@ -83,7 +87,37 @@
                                     <outputDirectory>${project.build.testOutputDirectory}/opt/infinispan/bin</outputDirectory>
                                     <destFileName>server-runner</destFileName>
                                 </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.infinispan</groupId>
+                                    <artifactId>infinispan-quarkus-cli</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>bin</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.testOutputDirectory}</outputDirectory>
+                                    <destFileName>ispn-cli</destFileName>
+                                </artifactItem>
                             </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>script-chmod</id>
+                        <phase>process-test-resources</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>chmod</executable>
+                            <basedir>${project.build.testOutputDirectory}</basedir>
+                            <arguments>
+                                <argument>+x</argument>
+                                <argument>ispn-cli</argument>
+                            </arguments>
                         </configuration>
                     </execution>
                 </executions>
