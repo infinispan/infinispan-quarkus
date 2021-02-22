@@ -111,6 +111,23 @@
                             </arguments>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>aesh-batch-native-reflection</id>
+                        <phase>process-classes</phase>
+                        <goals>
+                            <goal>exec</goal>
+                        </goals>
+                        <configuration>
+                            <executable>java</executable>
+                            <workingDirectory>target</workingDirectory>
+                            <arguments>
+                                <argument>-cp</argument>
+                                <classpath/>
+                                <argument>org.infinispan.cli.util.aesh.graal.GraalReflectionFileGenerator</argument>
+                                <argument>org.infinispan.cli.commands.Batch</argument>
+                            </arguments>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -120,6 +137,28 @@
                         <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
                     </systemProperties>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-artifacts</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>attach-artifact</goal>
+                        </goals>
+                        <configuration>
+                            <artifacts>
+                                <artifact>
+                                    <file>${project.build.directory}/ispn-cli</file>
+                                    <type>bin</type>
+                                </artifact>
+                            </artifacts>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
@@ -147,7 +186,7 @@
                                     <additionalBuildArgs>
                                         <additionalBuildArg>--allow-incomplete-classpath</additionalBuildArg>
                                         <additionalBuildArg>-H:ResourceConfigurationFiles=${project.basedir}/src/main/native/cli_resources.json</additionalBuildArg>
-                                        <additionalBuildArg>-H:ReflectionConfigurationFiles=${project.build.directory}/cli_reflection.json,${project.build.directory}/kube_reflection.json,${project.basedir}/src/main/native/cli.json</additionalBuildArg>
+                                        <additionalBuildArg>-H:ReflectionConfigurationFiles=${project.build.directory}/cli_reflection.json,${project.build.directory}/kube_reflection.json,${project.build.directory}/batch_reflection.json,${project.basedir}/src/main/native/cli.json</additionalBuildArg>
                                     </additionalBuildArgs>
                                 </configuration>
                             </execution>
