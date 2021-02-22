@@ -4,9 +4,13 @@ on:
   workflow_dispatch:
     inputs:
       branch:
-        description: "The branch to checkout when cutting the release."
+        description: "The infinispan-quarkus branch to checkout when cutting the release."
         required: true
         default: "master"
+      infinispanVersion:
+        description: "Infinispan version to use for the release."
+        required: true
+        default: "X.Y.Z"
       currentVersion:
         description: "The current SNAPSHOT version of the branch to cut the release from."
         required: true
@@ -53,10 +57,11 @@ jobs:
 
       - name: Tag release
         run: |
+          sed -i 's/<infinispan.version>.*<\/infinispan.version>/<infinispan.version>${{ github.event.inputs.infinispanVersion }}<\/infinispan.version>/g' pom.xml
           find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.currentVersion }}<\/version>/<version>${{ github.event.inputs.releaseVersion }}<\/version>/g'
           git commit -a -m "Releasing ${{ github.event.inputs.releaseVersion }}"
           git tag ${{ github.event.inputs.releaseVersion }}
-          find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.releaseVersion }}<\/version>/<version>${{ github.event.inputs.developmentVersion }}<\/version>/g'
+          sed -i 's/<infinispan.version>.*<\/infinispan.version>/<infinispan.version>\$\{project.version\}<\/infinispan.version>/g' pom.xml
           git commit -a -m "Next version ${{ github.event.inputs.developmentVersion }}"
 
       - name: Push changes
