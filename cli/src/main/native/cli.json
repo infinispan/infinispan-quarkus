@@ -13,6 +13,10 @@
     ]
   },
   {
+    "name": "org.infinispan.cli.impl.ExitCodeResultHandler",
+    "allDeclaredConstructors": true
+  },
+  {
     "name": "org.apache.logging.log4j.message.DefaultFlowMessageFactory",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
