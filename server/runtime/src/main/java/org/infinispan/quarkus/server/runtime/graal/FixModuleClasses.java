@@ -37,7 +37,7 @@ final class Target_ServerConfigurationParser {
    }
 
    @Substitute
-   private void parseTrustStoreRealm(XMLExtendedStreamReader reader, ServerConfigurationBuilder builder, TrustStoreRealmConfigurationBuilder trustStoreBuilder) throws XMLStreamException {
+   private void parseTrustStoreRealm(XMLExtendedStreamReader reader, TrustStoreRealmConfigurationBuilder trustStoreBuilder) throws XMLStreamException {
       coreLog.debug("TrustStore Realm is not supported in native mode - ignoring element");
       // Just read until end of token
       while (reader.hasNext() && (reader.nextTag() != XMLStreamConstants.END_ELEMENT)) {
