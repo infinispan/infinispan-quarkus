@@ -62,6 +62,7 @@ jobs:
           git commit -a -m "Releasing ${{ github.event.inputs.releaseVersion }}"
           git tag ${{ github.event.inputs.releaseVersion }}
           sed -i 's/<infinispan.version>.*<\/infinispan.version>/<infinispan.version>\$\{project.version\}<\/infinispan.version>/g' pom.xml
+          find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.releaseVersion }}<\/version>/<version>${{ github.event.inputs.developmentVersion }}<\/version>/g'
           git commit -a -m "Next version ${{ github.event.inputs.developmentVersion }}"
 
       - name: Push changes
