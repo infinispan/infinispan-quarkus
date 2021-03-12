@@ -5,11 +5,12 @@ import java.util.Properties;
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
+import org.infinispan.commons.configuration.io.ConfigurationReader;
 import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalJmxStatisticsConfiguration;
+import org.infinispan.configuration.parsing.CacheParser;
 import org.infinispan.configuration.parsing.ConfigurationBuilderHolder;
 import org.infinispan.configuration.parsing.Parser;
-import org.infinispan.configuration.parsing.XMLExtendedStreamReader;
 import org.infinispan.factories.GlobalComponentRegistry;
 
 import com.oracle.svm.core.annotate.Alias;
@@ -35,13 +36,16 @@ final class SubstituteGlobalComponentRegistry {
 @TargetClass(Parser.class)
 final class SubstituteParser {
     @Substitute
-    private void parseJmx(XMLExtendedStreamReader reader, ConfigurationBuilderHolder holder) {
+    private void parseJmx(ConfigurationReader reader, ConfigurationBuilderHolder holder) {
         // Ignore JMX configuration - but we need to skip to next element
-        parseProperties(reader);
+        CacheParser.parseProperties(reader, (String) null);
     }
+}
 
+@TargetClass(CacheParser.class)
+final class SubstituteCacheParser {
     @Alias
-    public static Properties parseProperties(final XMLExtendedStreamReader reader) {
+    public static Properties parseProperties(final ConfigurationReader reader, String outerElement) {
         return null;
     }
 }

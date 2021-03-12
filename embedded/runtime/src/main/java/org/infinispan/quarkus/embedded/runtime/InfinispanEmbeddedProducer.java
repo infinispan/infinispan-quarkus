@@ -11,6 +11,7 @@ import javax.inject.Singleton;
 import org.infinispan.commons.CacheConfigurationException;
 import org.infinispan.commons.configuration.attributes.Attribute;
 import org.infinispan.commons.configuration.attributes.AttributeSet;
+import org.infinispan.commons.dataconversion.MediaType;
 import org.infinispan.commons.tx.lookup.TransactionManagerLookup;
 import org.infinispan.commons.util.FileLookupFactory;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
@@ -39,7 +40,7 @@ public class InfinispanEmbeddedProducer {
             try {
                 InputStream configurationStream = FileLookupFactory.newInstance().lookupFileStrict(configurationFile,
                         Thread.currentThread().getContextClassLoader());
-                ConfigurationBuilderHolder configHolder = new ParserRegistry().parse(configurationStream, null);
+                ConfigurationBuilderHolder configHolder = new ParserRegistry().parse(configurationStream, null, MediaType.APPLICATION_XML);
                 verifyTransactionConfiguration(configHolder.getDefaultConfigurationBuilder(), "default");
                 for (Map.Entry<String, ConfigurationBuilder> entry : configHolder.getNamedConfigurationBuilders().entrySet()) {
                     verifyTransactionConfiguration(entry.getValue(), entry.getKey());
