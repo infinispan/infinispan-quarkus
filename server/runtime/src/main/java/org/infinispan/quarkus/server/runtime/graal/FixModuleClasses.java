@@ -1,9 +1,6 @@
 package org.infinispan.quarkus.server.runtime.graal;
 
-import javax.xml.stream.XMLStreamConstants;
-import javax.xml.stream.XMLStreamException;
-
-import org.infinispan.configuration.parsing.XMLExtendedStreamReader;
+import org.infinispan.commons.configuration.io.ConfigurationReader;
 import org.infinispan.server.configuration.ServerConfigurationBuilder;
 import org.infinispan.server.configuration.ServerConfigurationParser;
 import org.infinispan.server.configuration.security.LdapRealmConfigurationBuilder;
@@ -28,19 +25,19 @@ final class Target_ServerConfigurationParser {
    private static Log coreLog;
 
    @Substitute
-   private void parseLdapRealm(XMLExtendedStreamReader reader, ServerConfigurationBuilder builder, LdapRealmConfigurationBuilder ldapRealmConfigBuilder) throws XMLStreamException {
+   private void parseLdapRealm(ConfigurationReader reader, ServerConfigurationBuilder builder, LdapRealmConfigurationBuilder ldapRealmConfigBuilder) {
       coreLog.debug("LDAP Realm is not supported in native mode - ignoring element");
       // Just read until end of token
-      while (reader.hasNext() && (reader.nextTag() != XMLStreamConstants.END_ELEMENT)) {
+      while (reader.inTag()) {
 
       }
    }
 
    @Substitute
-   private void parseTrustStoreRealm(XMLExtendedStreamReader reader, TrustStoreRealmConfigurationBuilder trustStoreBuilder) throws XMLStreamException {
+   private void parseTrustStoreRealm(ConfigurationReader reader, TrustStoreRealmConfigurationBuilder trustStoreBuilder) {
       coreLog.debug("TrustStore Realm is not supported in native mode - ignoring element");
       // Just read until end of token
-      while (reader.hasNext() && (reader.nextTag() != XMLStreamConstants.END_ELEMENT)) {
+      while (reader.inTag()) {
 
       }
    }
