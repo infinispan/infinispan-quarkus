@@ -43,7 +43,7 @@ final class SubstituteRemoteCacheManager {
     @Substitute
     private void initRemoteCache(InternalRemoteCache<?, ?> remoteCache, OperationsFactory operationsFactory) {
         // Invoke the init method that doesn't have the JMX ObjectName argument
-        remoteCache.init(marshaller, operationsFactory, configuration);
+        remoteCache.init(operationsFactory, configuration);
     }
 
     @Substitute
@@ -72,7 +72,7 @@ final class SubstituteRemoteCacheImpl {
     // Sadly this method is public, so technically a user could get a Runtime error if they were referencing
     // it before - but it is the only way to make graal happy
     @Delete
-    public void init(Marshaller marshaller, OperationsFactory operationsFactory,
+    public void init(OperationsFactory operationsFactory,
                      Configuration configuration, ObjectName jmxParent) {
     }
 }
