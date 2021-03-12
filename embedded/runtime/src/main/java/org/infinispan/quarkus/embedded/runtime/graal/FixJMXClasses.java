@@ -1,7 +1,5 @@
 package org.infinispan.quarkus.embedded.runtime.graal;
 
-import java.util.Properties;
-
 import javax.management.MBeanServer;
 import javax.management.ObjectName;
 
@@ -10,10 +8,10 @@ import org.infinispan.configuration.global.GlobalConfiguration;
 import org.infinispan.configuration.global.GlobalJmxStatisticsConfiguration;
 import org.infinispan.configuration.parsing.CacheParser;
 import org.infinispan.configuration.parsing.ConfigurationBuilderHolder;
+import org.infinispan.configuration.parsing.Element;
 import org.infinispan.configuration.parsing.Parser;
 import org.infinispan.factories.GlobalComponentRegistry;
 
-import com.oracle.svm.core.annotate.Alias;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
@@ -38,15 +36,7 @@ final class SubstituteParser {
     @Substitute
     private void parseJmx(ConfigurationReader reader, ConfigurationBuilderHolder holder) {
         // Ignore JMX configuration - but we need to skip to next element
-        CacheParser.parseProperties(reader, (String) null);
-    }
-}
-
-@TargetClass(CacheParser.class)
-final class SubstituteCacheParser {
-    @Alias
-    public static Properties parseProperties(final ConfigurationReader reader, String outerElement) {
-        return null;
+        CacheParser.parseProperties(reader, Element.JMX);
     }
 }
 
