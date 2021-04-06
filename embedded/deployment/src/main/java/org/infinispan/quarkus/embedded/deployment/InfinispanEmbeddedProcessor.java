@@ -91,6 +91,8 @@ class InfinispanEmbeddedProcessor {
         // These are either default or required for marshalling
         resources.produce(new NativeImageResourceBuildItem(
                 "org/infinispan/protostream/message-wrapping.proto",
+                "infinispan/common-java-types.proto",
+                "infinispan/common-java-container-types.proto",
                 "proto/generated/persistence.commons.proto",
                 "proto/generated/persistence.core.proto",
                 "proto/generated/global.commons.proto",
