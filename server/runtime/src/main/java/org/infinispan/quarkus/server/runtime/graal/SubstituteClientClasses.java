@@ -19,16 +19,16 @@ import javax.management.ObjectName;
 import java.util.concurrent.ExecutorService;
 
 @Substitute
-@TargetClass(className = "org.infinispan.client.hotrod.impl.transport.netty.TransportHelper")
+@TargetClass(className = "org.infinispan.client.hotrod.impl.transport.netty.DefaultTransportFactory")
 final class SubstituteTransportHelper {
 
     @Substitute
-    static Class<? extends SocketChannel> socketChannel() {
+    public Class<? extends SocketChannel> socketChannelClass() {
         return NioSocketChannel.class;
     }
 
     @Substitute
-    static EventLoopGroup createEventLoopGroup(int maxExecutors, ExecutorService executorService) {
+    public EventLoopGroup createEventLoopGroup(int maxExecutors, ExecutorService executorService) {
         return new NioEventLoopGroup(maxExecutors, executorService);
     }
 }
