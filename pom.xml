@@ -11,12 +11,12 @@
 
     <groupId>org.infinispan</groupId>
     <artifactId>infinispan-quarkus-parent</artifactId>
-    <version>12.1.0.Final</version>
+    <version>12.1.1-SNAPSHOT</version>
     <name>Infinispan Quarkus - Parent pom</name>
     <packaging>pom</packaging>
 
     <properties>
-        <infinispan.version>12.1.0.Final</infinispan.version>
+        <infinispan.version>${project.version}</infinispan.version>
         <quarkus.version>1.11.0.Final</quarkus.version>
     </properties>
 
