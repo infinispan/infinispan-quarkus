@@ -12,7 +12,7 @@
 
     <artifactId>infinispan-quarkus-embedded-parent</artifactId>
     <version>12.1.1-SNAPSHOT</version>
-    <name>Infinispan - Quarkus - Embedded - Parent</name>
+    <name>Infinispan Quarkus :: Embedded Parent</name>
 
     <packaging>pom</packaging>
     <modules>
