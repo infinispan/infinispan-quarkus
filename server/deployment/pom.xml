@@ -11,7 +11,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>infinispan-quarkus-server-deployment</artifactId>
-    <name>Infinispan - Quarkus - Server - Deployment</name>
+    <name>Infinispan Quarkus :: Server Deployment</name>
 
     <dependencyManagement>
         <dependencies>

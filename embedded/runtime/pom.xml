@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>infinispan-quarkus-embedded</artifactId>
-    <name>Infinispan - Quarkus - Embedded - Runtime</name>
+    <name>Infinispan Quarkus :: Embedded Runtime</name>
 
     <dependencyManagement>
         <dependencies>

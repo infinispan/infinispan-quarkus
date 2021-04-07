@@ -13,7 +13,7 @@
     <artifactId>infinispan-quarkus-bom-deployment</artifactId>
     <packaging>pom</packaging>
 
-    <name>Camel Quarkus :: Deployment BOM</name>
+    <name>Infinispan Quarkus :: Deployment BOM</name>
 
     <dependencyManagement>
         <dependencies>
