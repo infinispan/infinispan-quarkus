@@ -13,16 +13,19 @@
             <outputDirectory>/</outputDirectory>
             <includes>
                 <include>*.md</include>
+                <include>*.adoc</include>
             </includes>
+            <filtered>true</filtered>
         </fileSet>
         <fileSet>
             <directory>${project.build.directory}</directory>
             <outputDirectory>/</outputDirectory>
             <includes>
-                <include>ispn-cli*</include>
+                <include>${cli.name}*</include>
             </includes>
             <excludes>
                 <exclude>*.jar</exclude>
+                <exclude>*.zip</exclude>
             </excludes>
         </fileSet>
     </fileSets>
