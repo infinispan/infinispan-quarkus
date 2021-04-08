@@ -1,0 +1,82 @@
+[id='native-cli']
+= ${infinispan.brand.name} Native CLI
+Use the native ${infinispan.brand.name} Command Line Interface (CLI) to access remote caches and perform administrative operations on ${infinispan.brand.name} clusters.
+
+== Starting the CLI
+
+.Linux and macOS
+
+Start the CLI and connect to a running ${infinispan.brand.name} Server as follows:
+
+[source,bash,options="nowrap",subs=attributes+]
+----
+./${cli.name} -c http://<host>:11222
+----
+
+.Microsoft Windows
+
+Start the CLI with PowerShell and connect to a running ${infinispan.brand.name} Server as follows:
+
+[source,bash,options="nowrap",subs=attributes+]
+----
+& ".\${cli.name}.exe" -c http://<host>:11222
+----
+
+== Installing the CLI as a ${k8.cmd} plugin
+
+You can use the ${infinispan.brand.name} CLI as `${k8.cmd}` client plugin to control the ${infinispan.brand.name} Operator.
+
+Integrating with `${k8.cmd}` lets you install and remove ${infinispan.brand.name} Operator, create and delete ${infinispan.brand.name} clusters, and obtain information about `Infinispan` resources.
+
+To install the CLI as a `${k8.cmd}` plugin, do the following:
+
+. Copy the `${cli.name}`, or create a hard link, to a file named "kubectl-infinispan".
+. Add `kubectl-infinispan` to your `PATH`.
+. Run `${k8.cmd} plugin list` to verify the CLI is added as a plugin.
+. Run `${k8.cmd} infinispan --help` to start using the CLI plugin.
+
+For detailed instructions, see link:${plugin.documentation.url}[Installing plugins].
+
+== Usage examples
+
+The following examples show you how to work with ${infinispan.brand.name} Operator:
+
+.Installing ${infinispan.brand.name} Operator
+
+[source,sh,options="nowrap",subs=attributes+]
+----
+${k8.cmd} infinispan install
+----
+
+.Creating  ${infinispan.brand.name} clusters
+
+[source,sh,options="nowrap",subs=attributes+]
+----
+${k8.cmd} infinispan create --replicas=2 myinfinispan
+${k8.cmd} infinispan get
+----
+
+.Removing clusters
+
+[source,sh,options="nowrap",subs=attributes+]
+----
+${k8.cmd} infinispan delete myinfinispan
+${k8.cmd} infinispan get
+----
+
+.Removing the Operator
+
+[source,sh,options="nowrap",subs=attributes+]
+----
+${k8.cmd} infinispan uninstall
+----
+
+[discrete]
+=== CLI User Guide
+
+You can find complete documentation for the CLI, in the link:${cli.documentation.url}[${infinispan.brand.name} CLI User Guide].
+
+== License
+
+The ${infinispan.brand.name} CLI is licensed under the Apache Public License 2.0.
+The source code for this program is [located on github](https://github.com/infinispan/infinispan).
