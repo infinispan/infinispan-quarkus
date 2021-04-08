@@ -13,6 +13,15 @@
     <artifactId>infinispan-quarkus-cli</artifactId>
     <name>Infinispan Quarkus :: CLI</name>
 
+    <properties>
+        <plugin.documentation.url>https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/#installing-kubectl-plugins</plugin.documentation.url>
+        <cli.documentation.url>https://infinispan.org/docs/stable/titles/cli/cli.html</cli.documentation.url>
+        <package.output-name>${infinispan.brand.short-name}</package.output-name>
+        <package.runner-suffix>-cli</package.runner-suffix>
+        <cli.name>${package.output-name}${package.runner-suffix}</cli.name>
+        <k8.cmd>kubectl</k8.cmd>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -60,6 +69,13 @@
         </dependency>
     </dependencies>
     <build>
+        <!-- enable property replacement in application.properties -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>io.quarkus</groupId>
@@ -202,6 +218,7 @@
                                     <descriptors>
                                         <descriptor>src/main/assembly/zip.xml</descriptor>
                                     </descriptors>
+                                    <finalName>${infinispan.brand.short-name}-cli-${infinispan.brand.version}</finalName>
                                 </configuration>
                             </execution>
                         </executions>
