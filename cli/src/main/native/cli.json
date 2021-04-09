@@ -40,5 +40,13 @@
     "name": "org.wildfly.security.password.impl.PasswordFactorySpiImpl",
     "allDeclaredConstructors": true,
     "allPublicConstructors": true
+  },
+  {
+    "name": "org.infinispan.commons.jdkspecific.ClasspathURLStreamHandlerProvider",
+    "allDeclaredConstructors": true,
+    "allPublicConstructors": true,
+    "fields" : [
+      { "name" : "INSTANCE" }
+    ]
   }
 ]

@@ -187,6 +187,7 @@
                                         <additionalBuildArg>--allow-incomplete-classpath</additionalBuildArg>
                                         <additionalBuildArg>-H:ResourceConfigurationFiles=${project.basedir}/src/main/native/cli_resources.json</additionalBuildArg>
                                         <additionalBuildArg>-H:ReflectionConfigurationFiles=${project.build.directory}/cli_reflection.json,${project.build.directory}/kube_reflection.json,${project.build.directory}/batch_reflection.json,${project.basedir}/src/main/native/cli.json</additionalBuildArg>
+                                        <additionalBuildArg>-H:ServiceLoaderFeatureExcludeServiceProviders=org.infinispan.commons.util.ClasspathURLStreamHandler</additionalBuildArg>
                                     </additionalBuildArgs>
                                 </configuration>
                             </execution>
