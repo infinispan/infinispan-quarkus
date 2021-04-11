@@ -14,9 +14,9 @@ public class ServerResourceTestResource implements QuarkusTestResourceLifecycleM
       settings.put("quarkus.infinispan-server.data-path", "target/data");
       // Make server path the same as root directory
       settings.put("quarkus.infinispan-server.server-path", ".");
-      settings.put("quarkus.infinispan-server.config-file", "infinispan-local.xml");
+      settings.put("quarkus.infinispan-server.config-file", "infinispan.xml");
       settings.put("quarkus.infinispan-server.config-path",  Paths.get("src", "test", "resources", "conf").toString());
-      settings.put("quarkus.infinispan-server.bind-port", "8081");
+      settings.put("quarkus.infinispan-server.bind-port", String.valueOf(ServerResourceTest.PORT));
 
       // Enable the following for tracing
       settings.put("quarkus.log.console.level", "INFO");
