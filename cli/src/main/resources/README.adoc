@@ -1,12 +1,13 @@
 [id='native-cli']
-= ${infinispan.brand.name} Native CLI
-Use the native ${infinispan.brand.name} Command Line Interface (CLI) to access remote caches and perform administrative operations on ${infinispan.brand.name} clusters.
+= ${product.name} native CLI
+The native ${product.name} Command Line Interface (CLI) lets you access remote caches and perform administrative operations on ${product.name} clusters.
 
-== Starting the CLI
+[discrete]
+== Starting the native CLI
 
 .Linux and macOS
 
-Start the CLI and connect to a running ${infinispan.brand.name} Server as follows:
+Start the CLI and connect to a running ${product.name} Server as follows:
 
 [source,bash,options="nowrap",subs=attributes+]
 ----
@@ -15,18 +16,19 @@ Start the CLI and connect to a running ${infinispan.brand.name} Server as follow
 
 .Microsoft Windows
 
-Start the CLI with PowerShell and connect to a running ${infinispan.brand.name} Server as follows:
+Start the CLI with PowerShell and connect to a running ${product.name} Server as follows:
 
 [source,bash,options="nowrap",subs=attributes+]
 ----
 & ".\${cli.name}.exe" -c http://<host>:11222
 ----
 
-== Installing the CLI as a ${k8.cmd} plugin
+[discrete]
+== Installing the native CLI as a ${k8.cmd} plugin
 
-You can use the ${infinispan.brand.name} CLI as `${k8.cmd}` client plugin to control the ${infinispan.brand.name} Operator.
+You can use the ${product.name} CLI as `${k8.cmd}` client plugin to control the ${product.name} Operator.
 
-Integrating with `${k8.cmd}` lets you install and remove ${infinispan.brand.name} Operator, create and delete ${infinispan.brand.name} clusters, and obtain information about `Infinispan` resources.
+Integrating with `${k8.cmd}` lets you install and remove ${product.name} Operator, create and delete ${product.name} clusters, and obtain information about `Infinispan` resources.
 
 To install the CLI as a `${k8.cmd}` plugin, do the following:
 
@@ -37,18 +39,12 @@ To install the CLI as a `${k8.cmd}` plugin, do the following:
 
 For detailed instructions, see link:${plugin.documentation.url}[Installing plugins].
 
-== Usage examples
+[discrete]
+== Working with ${product.name} clusters
 
-The following examples show you how to work with ${infinispan.brand.name} Operator:
+Use the native CLI to interact with ${product.name} Operator to work with ${product.name} clusters, as in the following examples:
 
-.Installing ${infinispan.brand.name} Operator
-
-[source,sh,options="nowrap",subs=attributes+]
-----
-${k8.cmd} infinispan install
-----
-
-.Creating  ${infinispan.brand.name} clusters
+.Creating ${product.name} clusters
 
 [source,sh,options="nowrap",subs=attributes+]
 ----
@@ -56,7 +52,7 @@ ${k8.cmd} infinispan create --replicas=2 myinfinispan
 ${k8.cmd} infinispan get
 ----
 
-.Removing clusters
+.Removing ${product.name} clusters
 
 [source,sh,options="nowrap",subs=attributes+]
 ----
@@ -64,19 +60,13 @@ ${k8.cmd} infinispan delete myinfinispan
 ${k8.cmd} infinispan get
 ----
 
-.Removing the Operator
-
-[source,sh,options="nowrap",subs=attributes+]
-----
-${k8.cmd} infinispan uninstall
-----
-
 [discrete]
 === CLI User Guide
 
-You can find complete documentation for the CLI, in the link:${cli.documentation.url}[${infinispan.brand.name} CLI User Guide].
+You can find complete documentation for the CLI, in the link:${cli.documentation.url}[${product.name} CLI User Guide].
 
+[discrete]
 == License
 
-The ${infinispan.brand.name} CLI is licensed under the Apache Public License 2.0.
+The ${product.name} CLI is licensed under the Apache Public License 2.0.
 The source code for this program is [located on github](https://github.com/infinispan/infinispan).
