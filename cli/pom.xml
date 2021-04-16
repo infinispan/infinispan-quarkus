@@ -16,6 +16,7 @@
     <properties>
         <plugin.documentation.url>https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/#installing-kubectl-plugins</plugin.documentation.url>
         <cli.documentation.url>https://infinispan.org/docs/stable/titles/cli/cli.html</cli.documentation.url>
+        <product.name>Infinispan</product.name>
         <package.output-name>${infinispan.brand.short-name}</package.output-name>
         <package.runner-suffix>-cli</package.runner-suffix>
         <cli.name>${package.output-name}${package.runner-suffix}</cli.name>
@@ -189,7 +190,7 @@
                                 <configuration>
                                     <artifacts>
                                         <artifact>
-                                            <file>${project.build.directory}/ispn-cli</file>
+                                            <file>${project.build.directory}/${cli.name}</file>
                                             <type>bin</type>
                                         </artifact>
                                     </artifacts>
