@@ -72,7 +72,7 @@ public class NativeCliIT {
          fail("Unexpected CLI output in stderr");
       }
       restResponse = sync(client.cache("mybatch").exists());
-      assertEquals(200, restResponse.getStatus());
+      assertEquals(204, restResponse.getStatus());
    }
 
    private String resource(String name) throws Exception {
