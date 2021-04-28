@@ -57,12 +57,11 @@ jobs:
 
       - name: Tag release
         run: |
-          sed -i '9s/<version>.*<\/version>/<version>${{ github.event.inputs.infinispanVersion }}<\/version>/' pom.xml
+          sed -i 's/<infinispan.version>.*<\/infinispan.version>/<infinispan.version>${{ github.event.inputs.infinispanVersion }}<\/infinispan.version>/g' pom.xml
           find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.currentVersion }}<\/version>/<version>${{ github.event.inputs.releaseVersion }}<\/version>/g'
-          grep SNAPSHOT --include pom.xml --recursive . && exit 1
           git commit -a -m "Releasing ${{ github.event.inputs.releaseVersion }}"
           git tag ${{ github.event.inputs.releaseVersion }}
-          sed -i '9s/<version>.*<\/version>/<version>${{ github.event.inputs.developmentVersion }}<\/version>/' pom.xml
+          sed -i 's/<infinispan.version>.*<\/infinispan.version>/<infinispan.version>\$\{project.version\}<\/infinispan.version>/g' pom.xml
           find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.releaseVersion }}<\/version>/<version>${{ github.event.inputs.developmentVersion }}<\/version>/g'
           git commit -a -m "Next version ${{ github.event.inputs.developmentVersion }}"
 
