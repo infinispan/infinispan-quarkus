@@ -4,19 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.infinispan</groupId>
-        <artifactId>infinispan-build-configuration-parent</artifactId>
-        <version>12.1.1-SNAPSHOT</version>
-        <relativePath/>
+        <groupId>org.jboss</groupId>
+        <artifactId>jboss-parent</artifactId>
+        <version>36</version>
     </parent>
 
+    <groupId>org.infinispan</groupId>
     <artifactId>infinispan-quarkus-parent</artifactId>
     <version>12.1.1-SNAPSHOT</version>
     <name>Infinispan Quarkus :: Parent pom</name>
     <packaging>pom</packaging>
 
     <properties>
-        <quarkus.version>1.11.6.Final</quarkus.version>
+        <infinispan.version>${project.version}</infinispan.version>
+        <quarkus.version>1.11.0.Final</quarkus.version>
     </properties>
 
     <modules>
