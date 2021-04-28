@@ -17,7 +17,7 @@
 
     <properties>
         <infinispan.version>${project.version}</infinispan.version>
-        <quarkus.version>1.11.0.Final</quarkus.version>
+        <quarkus.version>1.11.6.Final</quarkus.version>
     </properties>
 
     <modules>
