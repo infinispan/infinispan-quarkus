@@ -16,6 +16,10 @@
 
     <name>Infinispan Quarkus :: BOM</name>
 
+    <properties>
+      <elytron.version>1.13.2.Final</elytron.version>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <!-- External BOMs (Must come first so we can override as needed below) -->
@@ -72,7 +76,7 @@
             <dependency>
                 <groupId>org.wildfly.security</groupId>
                 <artifactId>wildfly-elytron</artifactId>
-                <version>${version.org.wildfly.elytron}</version>
+                <version>${elytron.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
