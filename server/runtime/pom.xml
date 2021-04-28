@@ -98,6 +98,10 @@
                     <groupId>org.hibernate</groupId>
                     <artifactId>hibernate-search-serialization-avro</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.infinispan</groupId>
+                    <artifactId>infinispan-cloudevents-integration</artifactId>
+                </exclusion>
             </exclusions>
         </dependency>
 
