@@ -93,6 +93,7 @@ class InfinispanEmbeddedProcessor {
                 "org/infinispan/protostream/message-wrapping.proto",
                 "protostream/common-java-types.proto",
                 "protostream/common-java-container-types.proto",
+                "proto/generated/user.commons.proto",
                 "proto/generated/persistence.commons.proto",
                 "proto/generated/persistence.core.proto",
                 "proto/generated/global.commons.proto",
