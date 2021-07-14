@@ -5,7 +5,7 @@
     <parent>
         <artifactId>infinispan-quarkus-integration-tests-parent</artifactId>
         <groupId>org.infinispan</groupId>
-        <version>12.1.7.Final</version>
+        <version>12.1.8-SNAPSHOT</version>
         <relativePath>../</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
