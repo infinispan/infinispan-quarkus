@@ -9,18 +9,16 @@ import javax.enterprise.inject.Produces;
 import javax.inject.Singleton;
 
 import org.infinispan.commons.CacheConfigurationException;
-import org.infinispan.commons.configuration.attributes.Attribute;
-import org.infinispan.commons.configuration.attributes.AttributeSet;
 import org.infinispan.commons.dataconversion.MediaType;
 import org.infinispan.commons.tx.lookup.TransactionManagerLookup;
 import org.infinispan.commons.util.FileLookupFactory;
 import org.infinispan.configuration.cache.ConfigurationBuilder;
-import org.infinispan.configuration.cache.TransactionConfiguration;
 import org.infinispan.configuration.cache.TransactionConfigurationBuilder;
 import org.infinispan.configuration.parsing.ConfigurationBuilderHolder;
 import org.infinispan.configuration.parsing.ParserRegistry;
 import org.infinispan.manager.DefaultCacheManager;
 import org.infinispan.manager.EmbeddedCacheManager;
+import org.infinispan.transaction.lookup.GenericTransactionManagerLookup;
 import org.infinispan.transaction.lookup.JBossStandaloneJTAManagerLookup;
 
 @ApplicationScoped
@@ -64,15 +62,13 @@ public class InfinispanEmbeddedProducer {
         TransactionConfigurationBuilder transactionConfigurationBuilder = configurationBuilder.transaction();
         if (transactionConfigurationBuilder.transactionMode() != null
                 && transactionConfigurationBuilder.transactionMode().isTransactional()) {
-            AttributeSet attributes = transactionConfigurationBuilder.attributes();
-            Attribute<TransactionManagerLookup> managerLookup = attributes
-                    .attribute(TransactionConfiguration.TRANSACTION_MANAGER_LOOKUP);
-            if (managerLookup.isModified() && !(managerLookup.get() instanceof JBossStandaloneJTAManagerLookup)) {
+            TransactionManagerLookup tml = transactionConfigurationBuilder.transactionManagerLookup();
+            if (!(tml instanceof GenericTransactionManagerLookup) && !(tml instanceof JBossStandaloneJTAManagerLookup)) {
                 throw new CacheConfigurationException(
                         "Only JBossStandaloneJTAManagerLookup transaction manager lookup is supported. Cache " + cacheName
                                 + " is misconfigured!");
             }
-            managerLookup.set(new JBossStandaloneJTAManagerLookup());
+            transactionConfigurationBuilder.transactionManagerLookup(new JBossStandaloneJTAManagerLookup());
         }
     }
 }
