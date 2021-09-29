@@ -81,7 +81,6 @@ class InfinispanServerProcessor {
             "infinispan-cachestore-jdbc",
             "infinispan-cachestore-rocksdb",
             "infinispan-cachestore-remote",
-            "infinispan-persistence-soft-index",
             "infinispan-clustered-counter",
             "infinispan-clustered-lock"
       )) {
