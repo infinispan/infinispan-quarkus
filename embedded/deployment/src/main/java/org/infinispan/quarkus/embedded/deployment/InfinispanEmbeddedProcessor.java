@@ -15,6 +15,8 @@ import org.infinispan.commons.marshall.SerializeWith;
 import org.infinispan.configuration.cache.StoreConfiguration;
 import org.infinispan.configuration.cache.StoreConfigurationBuilder;
 import org.infinispan.configuration.parsing.ConfigurationParser;
+import org.infinispan.configuration.serializing.ConfigurationSerializer;
+import org.infinispan.configuration.serializing.SerializedWith;
 import org.infinispan.distribution.ch.ConsistentHashFactory;
 import org.infinispan.distribution.ch.impl.HashFunctionPartitioner;
 import org.infinispan.factories.impl.ModuleMetadataBuilder;
@@ -30,6 +32,7 @@ import org.infinispan.notifications.cachelistener.annotation.CacheEntryModified;
 import org.infinispan.notifications.cachelistener.annotation.CacheEntryRemoved;
 import org.infinispan.persistence.spi.CacheLoader;
 import org.infinispan.persistence.spi.CacheWriter;
+import org.infinispan.persistence.spi.NonBlockingStore;
 import org.infinispan.quarkus.embedded.runtime.InfinispanEmbeddedProducer;
 import org.infinispan.quarkus.embedded.runtime.InfinispanEmbeddedRuntimeConfig;
 import org.infinispan.quarkus.embedded.runtime.InfinispanRecorder;
@@ -102,7 +105,12 @@ class InfinispanEmbeddedProcessor {
                 "default-configs/default-jgroups-kubernetes.xml",
                 "default-configs/default-jgroups-ec2.xml",
                 "default-configs/default-jgroups-google.xml",
-                "default-configs/default-jgroups-azure.xml"));
+                "default-configs/default-jgroups-azure.xml",
+                "stacks/udp.xml",
+                "stacks/tcp.xml",
+                "stacks/tcp_mping/tcp1.xml",
+                "stacks/tcp_mping/tcp2.xml"
+        ));
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, HashFunctionPartitioner.class));
         reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, JGroupsTransport.class));
@@ -148,6 +156,8 @@ class InfinispanEmbeddedProcessor {
         addReflectionForClass(CacheLoader.class, true, combinedIndex, reflectiveClass, excludedClasses);
         addReflectionForClass(CacheWriter.class, true, combinedIndex, reflectiveClass, excludedClasses);
 
+        addReflectionForClass(NonBlockingStore.class, true, combinedIndex, reflectiveClass, excludedClasses);
+
         // We have to include all of our interceptors - technically a custom one is installed before or after ISPN ones
         // If we don't want to support custom interceptors this should be removable
         // We use reflection to set fields from the properties so those must be exposed as well
@@ -160,6 +170,9 @@ class InfinispanEmbeddedProcessor {
         // We use reflection to load up the attributes for a store configuration
         addReflectionForName(StoreConfiguration.class.getName(), true, combinedIndex, reflectiveClass, true, false,
                 excludedClasses);
+
+        // We use reflection to find various configuration serializers
+        addReflectionForClass(ConfigurationSerializer.class, true, combinedIndex, reflectiveClass, excludedClasses);
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, Util.AddressScope.class));
 
@@ -186,14 +199,11 @@ class InfinispanEmbeddedProcessor {
         // it would be nice to not have this required for Infinispan classes
         Collection<AnnotationInstance> serializeWith = combinedIndex
                 .getAnnotations(DotName.createSimple(SerializeWith.class.getName()));
-        for (AnnotationInstance instance : serializeWith) {
-            AnnotationValue withValue = instance.value();
-            String withValueString = withValue.asString();
-            DotName targetSerializer = DotName.createSimple(withValueString);
-            if (!excludedClasses.contains(targetSerializer)) {
-                reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, withValueString));
-            }
-        }
+        registerSerializeWith(serializeWith, reflectiveClass, excludedClasses);
+
+        // Configuration serializes with classes loaded via serialization
+        serializeWith = combinedIndex.getAnnotations(DotName.createSimple(SerializedWith.class.getName()));
+        registerSerializeWith(serializeWith, reflectiveClass, excludedClasses);
 
         // This contains parts from the index from the app itself
         Index appOnlyIndex = applicationIndexBuildItem.getIndex();
@@ -203,6 +213,18 @@ class InfinispanEmbeddedProcessor {
         // Due to the index not containing AbstractExternalizer it doesn't know that it implements AdvancedExternalizer
         // thus we also have to include classes that extend AbstractExternalizer
         addReflectionForClass(AbstractExternalizer.class, false, appOnlyIndex, reflectiveClass, Collections.emptySet());
+    }
+
+    private void registerSerializeWith(Collection<AnnotationInstance> serializeWith,
+          BuildProducer<ReflectiveClassBuildItem> reflectiveClass, Set<DotName> excludedClasses) {
+        for (AnnotationInstance instance : serializeWith) {
+            AnnotationValue withValue = instance.value();
+            String withValueString = withValue.asString();
+            DotName targetSerializer = DotName.createSimple(withValueString);
+            if (!excludedClasses.contains(targetSerializer)) {
+                reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, withValueString));
+            }
+        }
     }
 
     private void addReflectionForClass(Class<?> classToUse, boolean isInterface, IndexView indexView,

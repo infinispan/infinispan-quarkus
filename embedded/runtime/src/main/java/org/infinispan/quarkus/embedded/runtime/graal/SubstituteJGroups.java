@@ -1,8 +1,10 @@
 package org.infinispan.quarkus.embedded.runtime.graal;
 
 import java.security.SecureRandom;
+import java.util.Random;
 
 import org.jgroups.JChannel;
+import org.jgroups.protocols.DELAY;
 import org.jgroups.util.UUID;
 import org.jgroups.util.Util;
 
@@ -20,6 +22,14 @@ final class SubstituteUUID {
     // Force it to null - so it can be reinitialized
     @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.Reset)
     protected static volatile SecureRandom numberGenerator;
+}
+
+@TargetClass(DELAY.class)
+final class SubstitueDELAY {
+    @Alias
+    // Force it to null - so it can be reinitialized
+    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.Reset)
+    protected static volatile Random randomNumberGenerator;
 }
 
 // DISCARD protocol uses swing classes

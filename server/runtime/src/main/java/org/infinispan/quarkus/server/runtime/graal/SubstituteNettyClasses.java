@@ -1,6 +1,7 @@
 package org.infinispan.quarkus.server.runtime.graal;
 
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadFactory;
 
 import org.infinispan.server.core.configuration.ProtocolServerConfiguration;
 import org.infinispan.server.core.logging.Log;
@@ -12,6 +13,7 @@ import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.MultithreadEventLoopGroup;
 import io.netty.channel.ServerChannel;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
@@ -41,9 +43,10 @@ final class Substitute_NettyTransport {
    }
 
    @Substitute
-   private EventLoopGroup buildEventLoop(int nThreads, DefaultThreadFactory threadFactory) {
-      EventLoopGroup eventLoop = new NioEventLoopGroup(nThreads, threadFactory);
-      log.createdNettyEventLoop(eventLoop.getClass().getName(), configuration.toString());
+   public static MultithreadEventLoopGroup buildEventLoop(int nThreads, ThreadFactory threadFactory,
+         String configuration) {
+      MultithreadEventLoopGroup eventLoop = new NioEventLoopGroup(nThreads, threadFactory);
+      log.createdNettyEventLoop(eventLoop.getClass().getName(), configuration);
       return eventLoop;
    }
 }
