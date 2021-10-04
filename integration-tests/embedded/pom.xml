@@ -97,16 +97,18 @@
 
     <profiles>
         <profile>
-            <id>native-image</id>
+            <id>native</id>
             <activation>
                 <property>
                     <name>native</name>
                 </property>
             </activation>
+            <properties>
+                <quarkus.package.type>native</quarkus.package.type>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-failsafe-plugin</artifactId>
                         <executions>
                             <execution>
@@ -115,31 +117,10 @@
                                     <goal>verify</goal>
                                 </goals>
                                 <configuration>
-                                    <systemProperties>
+                                    <systemPropertyVariables>
                                         <native.image.path>${project.build.directory}/${project.build.finalName}-runner</native.image.path>
-                                    </systemProperties>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
-                    <plugin>
-                        <groupId>io.quarkus</groupId>
-                        <artifactId>quarkus-maven-plugin</artifactId>
-                        <version>${quarkus.version}</version>
-                        <executions>
-                            <execution>
-                                <id>native-image</id>
-                                <goals>
-                                    <goal>native-image</goal>
-                                </goals>
-                                <configuration>
-                                    <cleanupServer>true</cleanupServer>
-                                    <enableHttpUrlHandler>true</enableHttpUrlHandler>
-                                    <!-- We have some example stack files we want to use -->
-                                    <additionalBuildArgs>
-                                        <additionalBuildArg>-H:ResourceConfigurationFiles=resources-config.json</additionalBuildArg>
-                                    </additionalBuildArgs>
-                                    <graalvmHome>${graalvmHome}</graalvmHome>
+                                        <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
+                                    </systemPropertyVariables>
                                 </configuration>
                             </execution>
                         </executions>

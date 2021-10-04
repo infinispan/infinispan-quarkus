@@ -74,6 +74,12 @@
                 <artifactId>wildfly-elytron</artifactId>
                 <version>${version.org.wildfly.elytron}</version>
             </dependency>
+
+            <dependency>
+                <groupId>org.kohsuke.metainf-services</groupId>
+                <artifactId>metainf-services</artifactId>
+                <version>${version.metainf-services}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 </project>

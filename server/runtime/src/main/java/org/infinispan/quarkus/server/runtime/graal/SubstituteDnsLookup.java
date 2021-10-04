@@ -22,13 +22,13 @@ public class SubstituteDnsLookup {
 @TargetClass(ServerInitialContextFactoryBuilder.class)
 final class Target_ServerInitialContextFactoryBuilder {
    @Alias
-   private ConcurrentMap<String, Object> NAMED_OBJECTS;
+   private ConcurrentMap<String, Object> namedObjects;
 
    @Substitute
    public InitialContextFactory createInitialContextFactory(Hashtable<?, ?> environment) throws NamingException {
       String className = environment != null ? (String) environment.get(Context.INITIAL_CONTEXT_FACTORY) : null;
       if (className == null) {
-         return new ServerInitialContextFactory(NAMED_OBJECTS);
+         return new ServerInitialContextFactory(namedObjects);
       }
       switch (className) {
          case "com.sun.jndi.dns.DnsContextFactory":
