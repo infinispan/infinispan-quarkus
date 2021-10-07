@@ -3,7 +3,7 @@ Infinispan Quarkus based extensions and Server
 
 # How to build
 
-1. If you are using a non tagged version (e.g. master), ensure you have built
+1. If you are using a non tagged version (e.g. main), ensure you have built
 the same version of Infinispan so that it is available in your maven repository.
 2. Download and extract the Java 11 version of GraalVM (>= 20.3) from
 https://github.com/graalvm/graalvm-ce-builds/releases
