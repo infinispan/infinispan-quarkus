@@ -110,7 +110,7 @@ jobs:
     - name: Install graalvm
       uses: DeLaGuardo/setup-graalvm@3.1
       with:
-        graalvm-version: 20.3.0.java11
+        graalvm-version: 21.2.0.java11
 
     - name: Install native-image
       run: ${{ matrix.gu_binary }} install native-image
