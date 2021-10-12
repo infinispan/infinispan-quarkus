@@ -61,6 +61,16 @@
             <artifactId>infinispan-server-tests</artifactId>
             <type>test-jar</type>
         </dependency>
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-core</artifactId>
+            <type>test-jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.infinispan</groupId>
+            <artifactId>infinispan-server-rest</artifactId>
+            <type>test-jar</type>
+        </dependency>
     </dependencies>
 
     <build>
