@@ -12,6 +12,7 @@ import java.util.Set;
 import org.infinispan.commons.marshall.AbstractExternalizer;
 import org.infinispan.commons.marshall.AdvancedExternalizer;
 import org.infinispan.commons.marshall.SerializeWith;
+import org.infinispan.configuration.cache.AbstractModuleConfigurationBuilder;
 import org.infinispan.configuration.cache.StoreConfiguration;
 import org.infinispan.configuration.cache.StoreConfigurationBuilder;
 import org.infinispan.configuration.parsing.ConfigurationParser;
@@ -173,6 +174,9 @@ class InfinispanEmbeddedProcessor {
 
         // We use reflection to find various configuration serializers
         addReflectionForClass(ConfigurationSerializer.class, true, combinedIndex, reflectiveClass, excludedClasses);
+
+        // Also use reflection to create configuration builders for modules
+        addReflectionForClass(AbstractModuleConfigurationBuilder.class, false, combinedIndex, reflectiveClass, excludedClasses);
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, Util.AddressScope.class));
 

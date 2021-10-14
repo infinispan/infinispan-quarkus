@@ -14,6 +14,7 @@ public class ServerResourceTest {
    @Test
    public void testSimpleWriteAndRetrieve() {
       given()
+            .auth().basic("admin", "admin")
             .when()
                .body("value-187")
                .post("/rest/v2/caches/quarkus-infinispan-server/key-5")
@@ -22,6 +23,7 @@ public class ServerResourceTest {
                .statusCode(204);
 
       given()
+            .auth().basic("admin", "admin")
             .when()
                .get("/rest/v2/caches/quarkus-infinispan-server/key-5")
             .then()
