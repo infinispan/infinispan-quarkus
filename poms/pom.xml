@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-quarkus-parent</artifactId>
-        <version>13.0.0.Final-2</version>
+        <version>13.0.1-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
