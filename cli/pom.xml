@@ -14,8 +14,6 @@
     <name>Infinispan Quarkus :: CLI</name>
 
     <properties>
-        <plugin.documentation.url>https://kubernetes.io/docs/tasks/extend-kubectl/kubectl-plugins/#installing-kubectl-plugins</plugin.documentation.url>
-        <cli.documentation.url>https://infinispan.org/docs/stable/titles/cli/cli.html</cli.documentation.url>
         <product.name>Infinispan</product.name>
         <package.output-name>${infinispan.brand.short-name}</package.output-name>
         <package.runner-suffix>-cli</package.runner-suffix>
