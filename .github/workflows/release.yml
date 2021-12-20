@@ -44,11 +44,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Set up JDK 11
-        uses: actions/setup-java@v1
+      - name: Install graalvm
+        uses: DeLaGuardo/setup-graalvm@3.1
         with:
-          java-version: 11
-          settings-path: ${{ github.workspace }}
+          graalvm-version: 21.2.0.java11
+
+      - name: Install native-image
+        run: gu install native-image
 
       - name: Configure Git User
         run: |
@@ -65,6 +67,12 @@ jobs:
           sed -i '9s/<version>.*<\/version>/<version>${{ github.event.inputs.developmentVersion }}<\/version>/' pom.xml
           find . -name "pom.xml" | xargs sed -i 's/<version>${{ github.event.inputs.releaseVersion }}<\/version>/<version>${{ github.event.inputs.developmentVersion }}<\/version>/g'
           git commit -a -m "Next version ${{ github.event.inputs.developmentVersion }}"
+
+      # Ensure the tagged release can be be built
+      - name: Build release
+        run: |
+          git checkout ${{ github.event.inputs.releaseVersion }}
+          mvn package -s maven-settings.xml -Dnative -DskipTests=true
 
       - name: Push changes
         uses: ad-m/github-push-action@master
