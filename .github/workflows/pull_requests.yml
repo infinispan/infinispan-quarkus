@@ -14,8 +14,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-#        os: [ubuntu-latest, macos-latest, windows-latest]
-        os: [ ubuntu-latest, macos-latest ]
+        os: [ubuntu-latest, macos-latest, windows-latest]
         include:
           - os: ubuntu-latest
             asset_name: linux-amd64
@@ -23,9 +22,9 @@ jobs:
           - os: macos-latest
             asset_name: darwin-amd64
             gu_binary: gu
-#          - os: windows-latest
-#            asset_name: windows-amd64
-#            gu_binary: gu.cmd
+          - os: windows-latest
+            asset_name: windows-amd64
+            gu_binary: gu.cmd
     steps:
     - uses: actions/checkout@v2
 
