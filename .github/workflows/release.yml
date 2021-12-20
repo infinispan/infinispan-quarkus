@@ -68,7 +68,9 @@ jobs:
 
       # Ensure the tagged release can be be built
       - name: Build release
-        run: mvn package -am -pl cli,server/runtime -s maven-settings.xml -Dnative -DskipTests=true
+        run: |
+          git checkout ${{ github.event.inputs.releaseVersion }}
+          mvn package -am -pl cli,server/runtime -s maven-settings.xml -Dnative -DskipTests=true
 
       - name: Push changes
         uses: ad-m/github-push-action@master
