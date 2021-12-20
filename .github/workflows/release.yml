@@ -70,7 +70,7 @@ jobs:
       - name: Build release
         run: |
           git checkout ${{ github.event.inputs.releaseVersion }}
-          mvn package -am -pl cli,server/runtime -s maven-settings.xml -Dnative -DskipTests=true
+          mvn package -s maven-settings.xml -Dnative -DskipTests=true
 
       - name: Push changes
         uses: ad-m/github-push-action@master
