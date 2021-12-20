@@ -27,4 +27,13 @@
         <module>integration-tests</module>
         <module>server-runner</module>
     </modules>
+
+    <profiles>
+        <profile>
+            <id>native</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
 </project>
