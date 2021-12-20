@@ -16,7 +16,8 @@
     <packaging>pom</packaging>
 
     <properties>
-        <quarkus.version>2.2.3.Final</quarkus.version>
+        <quarkus.version>2.2.4.Final</quarkus.version>
+        <exe.suffix></exe.suffix>
     </properties>
 
     <modules>
@@ -34,6 +35,17 @@
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>windows</id>
+            <activation>
+                <os>
+                    <family>Windows</family>
+                </os>
+            </activation>
+            <properties>
+                <exe.suffix>.exe</exe.suffix>
+            </properties>
         </profile>
     </profiles>
 </project>

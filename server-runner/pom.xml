@@ -108,9 +108,7 @@
         <profile>
             <id>native</id>
             <activation>
-                <property>
-                    <name>native</name>
-                </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
@@ -148,7 +146,7 @@
                                 <configuration>
                                     <artifacts>
                                         <artifact>
-                                            <file>${project.build.directory}/${project.build.finalName}-runner</file>
+                                            <file>${project.build.directory}/${project.build.finalName}-runner${exe.suffix}</file>
                                             <type>bin</type>
                                         </artifact>
                                     </artifacts>

@@ -159,13 +159,11 @@
         <profile>
             <id>native</id>
             <activation>
-                <property>
-                    <name>native</name>
-                </property>
+                <activeByDefault>true</activeByDefault>
             </activation>
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
-                <quarkus.native.additional-build-args>--allow-incomplete-classpath,-H:ResourceConfigurationFiles=${project.basedir}/src/main/native/cli_resources.json,-H:ReflectionConfigurationFiles=${project.build.directory}/cli_reflection.json\,${project.build.directory}/kube_reflection.json\,${project.build.directory}/batch_reflection.json\,${project.basedir}/src/main/native/cli.json</quarkus.native.additional-build-args>
+                <quarkus.native.additional-build-args>--allow-incomplete-classpath,-H:ResourceConfigurationFiles=../../src/main/native/cli_resources.json,-H:ReflectionConfigurationFiles=../cli_reflection.json\,../kube_reflection.json\,../batch_reflection.json\,../../src/main/native/cli.json</quarkus.native.additional-build-args>
             </properties>
             <build>
                 <plugins>
@@ -188,7 +186,7 @@
                                 <configuration>
                                     <artifacts>
                                         <artifact>
-                                            <file>${project.build.directory}/${cli.name}</file>
+                                            <file>${project.build.directory}/${cli.name}${exe.suffix}</file>
                                             <type>bin</type>
                                         </artifact>
                                     </artifacts>
