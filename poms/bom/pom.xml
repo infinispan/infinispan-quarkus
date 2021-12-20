@@ -164,6 +164,11 @@
                 <artifactId>wildfly-elytron-sasl-scram</artifactId>
                 <version>${version.org.wildfly.elytron}</version>
             </dependency>
+            <dependency>
+                <groupId>org.wildfly.security</groupId>
+                <artifactId>wildfly-elytron-password-impl</artifactId>
+                <version>${version.org.wildfly.elytron}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.kohsuke.metainf-services</groupId>
