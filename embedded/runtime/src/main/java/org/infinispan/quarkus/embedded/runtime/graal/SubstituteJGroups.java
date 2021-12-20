@@ -16,14 +16,6 @@ import com.oracle.svm.core.annotate.TargetClass;
 public class SubstituteJGroups {
 }
 
-@TargetClass(UUID.class)
-final class SubstituteUUID {
-    @Alias
-    // Force it to null - so it can be reinitialized
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.Reset)
-    protected static volatile SecureRandom numberGenerator;
-}
-
 @TargetClass(DELAY.class)
 final class SubstitueDELAY {
     @Alias
