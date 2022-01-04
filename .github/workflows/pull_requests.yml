@@ -32,13 +32,12 @@ jobs:
       name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
-    - name: Install graalvm
-      uses: DeLaGuardo/setup-graalvm@3.1
+    - uses: graalvm/setup-graalvm@v1
       with:
-        graalvm-version: 21.2.0.java11
-
-    - name: Install native-image
-      run: ${{ matrix.gu_binary }} install native-image
+        version: '21.2.0'
+        java-version: '11'
+        components: 'native-image'
+        github-token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Checkout PR Branch
       uses: actions/checkout@v2
