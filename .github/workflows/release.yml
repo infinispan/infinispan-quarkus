@@ -96,7 +96,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, macos-latest, windows-latest]
+        os: [ubuntu-latest, macos-latest, windows-2022]
         include:
           - os: ubuntu-latest
             asset_name: linux-amd64
@@ -104,13 +104,13 @@ jobs:
           - os: macos-latest
             asset_name: darwin-amd64
             gu_binary: gu
-          - os: windows-latest
+          - os: windows-2022
             asset_name: windows-amd64
             gu_binary: gu.cmd
     steps:
     - uses: actions/checkout@v2
 
-    - if: ${{ matrix.os == 'windows-latest' }}
+    - if: ${{ matrix.os == 'windows-2022' }}
       name: Add msbuild to PATH
       uses: microsoft/setup-msbuild@v1.0.2
 
@@ -126,14 +126,14 @@ jobs:
       with:
         ref: ${{ github.event.inputs.releaseVersion }}
 
-    - if: ${{ matrix.os == 'windows-latest' }}
+    - if: ${{ matrix.os == 'windows-2022' }}
       name: Build native executable
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-        mvnw.cmd package -s maven-settings.xml -Pdistribution -Pnative -am -pl cli
+        mvnw.cmd package -s maven-settings.xml -Pdistribution -Pwindows -Pnative -am -pl cli
       shell: cmd
 
-    - if: ${{ matrix.os != 'windows-latest' }}
+    - if: ${{ matrix.os != 'windows-2022' }}
       name: Build native executable
       run: ./mvnw package -s maven-settings.xml -Pdistribution -Pnative -am -pl cli
 
