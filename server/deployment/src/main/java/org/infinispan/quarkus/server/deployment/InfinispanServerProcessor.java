@@ -45,6 +45,7 @@ import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.IndexDependencyBuildItem;
 import io.quarkus.deployment.builditem.SystemPropertyBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.ExcludeConfigBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageResourceBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageSystemPropertyBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
@@ -79,7 +80,6 @@ class InfinispanServerProcessor {
             // Why is client-hotrod in dependency tree??
             "infinispan-client-hotrod",
             "infinispan-cachestore-jdbc",
-            "infinispan-cachestore-rocksdb",
             "infinispan-cachestore-remote",
             "infinispan-clustered-counter",
             "infinispan-clustered-lock"
@@ -149,7 +149,6 @@ class InfinispanServerProcessor {
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, NoTypePermission.class.getName()));
 
       resources.produce(new NativeImageResourceBuildItem("infinispan-defaults.xml",
-            "proto/generated/persistence.rocksdb.proto",
             "proto/generated/persistence.counters.proto",
             "proto/generated/persistence.query.proto",
             "proto/generated/persistence.query.core.proto",
@@ -204,6 +203,11 @@ class InfinispanServerProcessor {
 
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, AnchoredKeysConfigurationBuilder.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, ClusteredLockManagerConfigurationBuilder.class));
+   }
+
+   @BuildStep
+   void excludeResourcesFromDependencies(BuildProducer<ExcludeConfigBuildItem> excludeConfigBuildItemBuildProducer) {
+      excludeConfigBuildItemBuildProducer.produce(new ExcludeConfigBuildItem("io\\.lettuce\\.lettuce-core-.+.jar", "/META-INF/native-image/io.lettuce/lettuce-core/reflect-config.json"));
    }
 
    private void addReflectionForClass(Class<?> classToUse, boolean isInterface, IndexView indexView,
