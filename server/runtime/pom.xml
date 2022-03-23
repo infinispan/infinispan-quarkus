@@ -87,6 +87,10 @@
                     <groupId>org.infinispan</groupId>
                     <artifactId>hibernate-search-engine</artifactId>
                 </exclusion>
+                <exclusion>
+                    <groupId>org.infinispan</groupId>
+                    <artifactId>infinispan-cachestore-rocksdb</artifactId>
+                </exclusion>
                 <!-- This cannot be excluded as org.infinispan.query.impl.InfinispanQueryStatisticsInfo implements it
                      and is part of the query module.
                 <exclusion>
@@ -101,6 +105,22 @@
                 <exclusion>
                     <groupId>org.infinispan</groupId>
                     <artifactId>infinispan-cloudevents-integration</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>io.lettuce</groupId>
+            <artifactId>lettuce-core</artifactId>
+            <version>${version.io.lettuce}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>io.netty</groupId>
+                    <artifactId>netty-transport</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
