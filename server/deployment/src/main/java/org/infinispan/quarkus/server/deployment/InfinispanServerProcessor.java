@@ -28,7 +28,6 @@ import org.infinispan.tasks.Task;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
-import org.jgroups.protocols.SASL;
 import org.wildfly.security.password.impl.PasswordFactorySpiImpl;
 
 import com.thoughtworks.xstream.security.NoTypePermission;
@@ -101,8 +100,6 @@ class InfinispanServerProcessor {
 
    @BuildStep
    void addExcludedClassesFromReflection(BuildProducer<InfinispanReflectionExcludedBuildItem> excludedClasses) {
-      // Don't support SASL in JGroups yet - need to fix elytron
-      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(SASL.class.getName())));
       // We don't support Indexing so don't these to reflection
 //      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(AffinityIndexManager.class.getName())));
 //      excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple(ShardAllocationManagerImpl.class.getName())));
