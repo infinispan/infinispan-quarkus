@@ -1,5 +1,6 @@
 package org.infinispan.quarkus.embedded.deployment;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -46,7 +47,13 @@ import org.jboss.jandex.DotName;
 import org.jboss.jandex.Index;
 import org.jboss.jandex.IndexView;
 import org.jgroups.conf.PropertyConverter;
+import org.jgroups.protocols.Bundler;
+import org.jgroups.protocols.LocalTransport;
+import org.jgroups.protocols.MsgStats;
+import org.jgroups.stack.DiagnosticsHandler;
+import org.jgroups.stack.MessageProcessingPolicy;
 import org.jgroups.stack.Protocol;
+import org.jgroups.util.ThreadPool;
 import org.jgroups.util.Util;
 
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
@@ -147,17 +154,26 @@ class InfinispanEmbeddedProcessor {
         // Add all the JGroups Protocols
         addReflectionForName(Protocol.class.getName(), false, combinedIndex, reflectiveClass, false, true, excludedClasses);
 
-        // Add all the JGroups Property Converters
-        addReflectionForClass(PropertyConverter.class, true, combinedIndex, reflectiveClass, excludedClasses);
+        // Add a bunch of JGroups components
+        addReflectionForClass(PropertyConverter.class, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(Bundler.class, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(LocalTransport.class, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(MessageProcessingPolicy.class, combinedIndex, reflectiveClass, excludedClasses);
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, true, DiagnosticsHandler.class));
+        //addReflectionForClass(DiagnosticsHandler.class, combinedIndex, reflectiveClass, excludedClasses);
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, true, MsgStats.class));
+        //addReflectionForClass(MsgStats.class, combinedIndex, reflectiveClass, excludedClasses);
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, true, ThreadPool.class));
+        //addReflectionForClass(ThreadPool.class, combinedIndex, reflectiveClass, excludedClasses);
 
         // Add all consistent hash factories
-        addReflectionForClass(ConsistentHashFactory.class, true, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(ConsistentHashFactory.class, combinedIndex, reflectiveClass, excludedClasses);
 
         // We have to add reflection for our own loaders and stores as well due to how configuration works
-        addReflectionForClass(CacheLoader.class, true, combinedIndex, reflectiveClass, excludedClasses);
-        addReflectionForClass(CacheWriter.class, true, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(CacheLoader.class, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(CacheWriter.class, combinedIndex, reflectiveClass, excludedClasses);
 
-        addReflectionForClass(NonBlockingStore.class, true, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(NonBlockingStore.class, combinedIndex, reflectiveClass, excludedClasses);
 
         // We have to include all of our interceptors - technically a custom one is installed before or after ISPN ones
         // If we don't want to support custom interceptors this should be removable
@@ -166,17 +182,17 @@ class InfinispanEmbeddedProcessor {
 
         // We use our configuration builders for all of our supported loaders - this also handles user custom configuration
         // builders
-        addReflectionForClass(StoreConfigurationBuilder.class, true, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(StoreConfigurationBuilder.class, combinedIndex, reflectiveClass, excludedClasses);
 
         // We use reflection to load up the attributes for a store configuration
         addReflectionForName(StoreConfiguration.class.getName(), true, combinedIndex, reflectiveClass, true, false,
                 excludedClasses);
 
         // We use reflection to find various configuration serializers
-        addReflectionForClass(ConfigurationSerializer.class, true, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(ConfigurationSerializer.class, combinedIndex, reflectiveClass, excludedClasses);
 
         // Also use reflection to create configuration builders for modules
-        addReflectionForClass(AbstractModuleConfigurationBuilder.class, false, combinedIndex, reflectiveClass, excludedClasses);
+        addReflectionForClass(AbstractModuleConfigurationBuilder.class, combinedIndex, reflectiveClass, excludedClasses);
 
         reflectiveClass.produce(new ReflectiveClassBuildItem(false, false, Util.AddressScope.class));
 
@@ -213,10 +229,10 @@ class InfinispanEmbeddedProcessor {
         Index appOnlyIndex = applicationIndexBuildItem.getIndex();
 
         // We only register the app advanced externalizers as all of the Infinispan ones are explicitly defined
-        addReflectionForClass(AdvancedExternalizer.class, true, appOnlyIndex, reflectiveClass, Collections.emptySet());
+        addReflectionForClass(AdvancedExternalizer.class, appOnlyIndex, reflectiveClass, Collections.emptySet());
         // Due to the index not containing AbstractExternalizer it doesn't know that it implements AdvancedExternalizer
         // thus we also have to include classes that extend AbstractExternalizer
-        addReflectionForClass(AbstractExternalizer.class, false, appOnlyIndex, reflectiveClass, Collections.emptySet());
+        addReflectionForClass(AbstractExternalizer.class, appOnlyIndex, reflectiveClass, Collections.emptySet());
     }
 
     private void registerSerializeWith(Collection<AnnotationInstance> serializeWith,
@@ -231,9 +247,9 @@ class InfinispanEmbeddedProcessor {
         }
     }
 
-    private void addReflectionForClass(Class<?> classToUse, boolean isInterface, IndexView indexView,
+    private void addReflectionForClass(Class<?> classToUse, IndexView indexView,
             BuildProducer<ReflectiveClassBuildItem> reflectiveClass, Set<DotName> excludedClasses) {
-        addReflectionForName(classToUse.getName(), isInterface, indexView, reflectiveClass, false, false,
+        addReflectionForName(classToUse.getName(), classToUse.isInterface(), indexView, reflectiveClass, false, false,
                 excludedClasses);
     }
 
@@ -259,5 +275,13 @@ class InfinispanEmbeddedProcessor {
     @BuildStep
     void configureRuntimeProperties(InfinispanRecorder recorder, InfinispanEmbeddedRuntimeConfig runtimeConfig) {
         recorder.configureRuntimeProperties(runtimeConfig);
+    }
+
+    @BuildStep
+    ReflectiveClassBuildItem cacheClasses() throws IOException {
+        return new ReflectiveClassBuildItem(false, false,
+              "com.github.benmanes.caffeine.cache.SSLMW",
+              "com.github.benmanes.caffeine.cache.PSMW"
+        );
     }
 }

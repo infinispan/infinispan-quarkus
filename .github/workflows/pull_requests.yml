@@ -65,9 +65,10 @@ jobs:
       name: Build native executable
       run: |
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" x86_amd64
-        mvn.cmd package -s maven-settings.xml -Pdistribution -Dnative -am -pl cli
+        mvn.cmd -V install -s maven-settings.xml -Pdistribution -Dnative -am -pl poms/bom,cli
       shell: cmd
 
     - if: ${{ matrix.os != 'windows-latest' }}
       name: Build native executable
-      run: mvn package -s maven-settings.xml -Pdistribution -Dnative -am -pl cli
+      run: mvn -V install -s maven-settings.xml -Pdistribution -Dnative -am -pl poms/bom,cli
+
