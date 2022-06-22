@@ -25,8 +25,8 @@ public class SubstituteNettyClasses {
 }
 
 @Delete
-@TargetClass(className = "org.infinispan.server.core.transport.EPollAvailable")
-final class Delete_org_infinispan_server_core_transport_EPollAvailable { }
+@TargetClass(className = "org.infinispan.server.core.transport.NativeTransport")
+final class Delete_org_infinispan_server_core_transport_NativeTransport { }
 
 @TargetClass(NettyTransport.class)
 final class Substitute_NettyTransport {
@@ -51,6 +51,10 @@ final class Substitute_NettyTransport {
    }
 }
 
+/*
+ * Reinstate once we include the Hot Rod client
+ *
 @Delete
-@TargetClass(className = "org.infinispan.server.core.transport.EPollAvailable")
-final class Delete_org_infinispan_client_hotrod_impl_transport_netty_EPollAvailable { }
+@TargetClass(className = "org.infinispan.client.hotrod.impl.transport.netty.NativeTransport")
+final class Delete_org_infinispan_client_hotrod_impl_transport_netty_NativeTransport { }
+*/
