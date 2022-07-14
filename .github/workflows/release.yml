@@ -72,6 +72,7 @@ jobs:
         run: |
           git checkout ${{ github.event.inputs.releaseVersion }}
           mvn package -s maven-settings.xml -Dnative -DskipTests=true
+          git checkout  ${{ github.event.inputs.branch }}
 
       - name: Push changes
         uses: ad-m/github-push-action@master
