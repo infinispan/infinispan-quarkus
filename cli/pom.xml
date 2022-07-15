@@ -167,7 +167,7 @@
             </activation>
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
-                <quarkus.native.additional-build-args>--allow-incomplete-classpath,-H:ResourceConfigurationFiles=../../src/main/native/cli_resources.json,-H:ReflectionConfigurationFiles=../cli_reflection.json\,../kube_reflection.json\,../batch_reflection.json\,../../src/main/native/cli.json</quarkus.native.additional-build-args>
+                <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=../../src/main/native/cli_resources.json,-H:ReflectionConfigurationFiles=../cli_reflection.json\,../kube_reflection.json\,../batch_reflection.json\,../../src/main/native/cli.json</quarkus.native.additional-build-args>
             </properties>
             <build>
                 <plugins>
