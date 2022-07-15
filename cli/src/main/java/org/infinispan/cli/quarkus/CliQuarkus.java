@@ -1,5 +1,7 @@
 package org.infinispan.cli.quarkus;
 
+import java.io.IOException;
+
 import org.infinispan.cli.commands.CLI;
 
 import io.quarkus.runtime.annotations.QuarkusMain;
@@ -10,7 +12,7 @@ import io.quarkus.runtime.annotations.QuarkusMain;
  **/
 @QuarkusMain
 public class CliQuarkus {
-   public static final void main(String args[]) {
+   public static void main(String[] args) throws IOException {
       CLI.main(args);
    }
 }
