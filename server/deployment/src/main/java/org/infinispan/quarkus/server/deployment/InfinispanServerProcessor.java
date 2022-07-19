@@ -24,6 +24,9 @@ import org.infinispan.server.configuration.ServerConfigurationBuilder;
 import org.infinispan.server.core.configuration.ProtocolServerConfigurationBuilder;
 import org.infinispan.server.hotrod.HotRodServer;
 import org.infinispan.server.memcached.MemcachedServer;
+import org.infinispan.server.resp.Resp3Handler;
+import org.infinispan.server.resp.RespServer;
+import org.infinispan.server.resp.configuration.RespServerConfigurationBuilder;
 import org.infinispan.tasks.Task;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
@@ -119,6 +122,7 @@ class InfinispanServerProcessor {
    void addRuntimeInitializedClasses(BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitialized) {
       runtimeInitialized.produce(new RuntimeInitializedClassBuildItem(CleartextHttp2ServerUpgradeHandler.class.getName()));
       runtimeInitialized.produce(new RuntimeInitializedClassBuildItem(Http2ServerUpgradeCodec.class.getName()));
+      runtimeInitialized.produce(new RuntimeInitializedClassBuildItem(Resp3Handler.class.getName()));
    }
 
    @BuildStep
@@ -132,6 +136,7 @@ class InfinispanServerProcessor {
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, HotRodServer.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, MemcachedServer.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RestServer.class));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RespServer.class));
 
       // We instantiate this during logging initialization
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, "org.apache.logging.log4j.message.ReusableMessageFactory"));
@@ -201,6 +206,7 @@ class InfinispanServerProcessor {
 
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, AnchoredKeysConfigurationBuilder.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, ClusteredLockManagerConfigurationBuilder.class));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RespServerConfigurationBuilder.class));
    }
 
    @BuildStep
