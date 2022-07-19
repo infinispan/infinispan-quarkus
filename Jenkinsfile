@@ -32,13 +32,13 @@ pipeline {
                 }
 
                 // Then we build infinispan-quarkus
-                sh '$MAVEN_HOME/bin/mvn clean install -Dnative -B -V -e -DskipTests'
+                sh '$MAVEN_HOME/bin/mvn clean install -B -V -e -DskipTests'
             }
         }
 
         stage('Tests') {
             steps {
-                sh '$MAVEN_HOME/bin/mvn verify -Dnative -B -V -e -Dmaven.test.failure.ignore=true -Dansi.strip=true'
+                sh '$MAVEN_HOME/bin/mvn verify -B -V -e -Dmaven.test.failure.ignore=true -Dansi.strip=true'
 
                 // TODO Add StabilityTestDataPublisher after https://issues.jenkins-ci.org/browse/JENKINS-42610 is fixed
                 // Capture target/surefire-reports/*.xml, target/failsafe-reports/*.xml,
