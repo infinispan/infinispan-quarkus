@@ -50,6 +50,7 @@ import org.jgroups.conf.PropertyConverter;
 import org.jgroups.protocols.Bundler;
 import org.jgroups.protocols.LocalTransport;
 import org.jgroups.protocols.MsgStats;
+import org.jgroups.protocols.raft.AppendEntriesRequest;
 import org.jgroups.stack.DiagnosticsHandler;
 import org.jgroups.stack.MessageProcessingPolicy;
 import org.jgroups.stack.Protocol;
@@ -165,6 +166,7 @@ class InfinispanEmbeddedProcessor {
         //addReflectionForClass(MsgStats.class, combinedIndex, reflectiveClass, excludedClasses);
         reflectiveClass.produce(new ReflectiveClassBuildItem(true, true, ThreadPool.class));
         //addReflectionForClass(ThreadPool.class, combinedIndex, reflectiveClass, excludedClasses);
+        reflectiveClass.produce(new ReflectiveClassBuildItem(true, true, AppendEntriesRequest.class));
 
         // Add all consistent hash factories
         addReflectionForClass(ConsistentHashFactory.class, combinedIndex, reflectiveClass, excludedClasses);
