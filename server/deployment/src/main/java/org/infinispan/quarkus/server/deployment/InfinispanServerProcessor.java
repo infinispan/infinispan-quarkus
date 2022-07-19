@@ -158,6 +158,7 @@ class InfinispanServerProcessor {
             "proto/generated/persistence.servertasks.proto",
             "proto/generated/persistence.scripting.proto",
             "proto/generated/persistence.server_state.proto",
+            "proto/generated/persistence.distribution.proto",
             "org/infinispan/query/remote/client/query.proto",
             WrappedMessage.PROTO_FILE
       ));
