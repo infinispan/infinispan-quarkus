@@ -1,6 +1,5 @@
 package org.infinispan.quarkus.server.runtime.graal;
 
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ThreadFactory;
 
 import org.infinispan.server.core.configuration.ProtocolServerConfiguration;
@@ -12,14 +11,10 @@ import com.oracle.svm.core.annotate.Delete;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
-import io.netty.channel.EventLoopGroup;
 import io.netty.channel.MultithreadEventLoopGroup;
 import io.netty.channel.ServerChannel;
-import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioServerSocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.util.concurrent.DefaultThreadFactory;
+import io.netty.channel.epoll.EpollEventLoopGroup;
+import io.netty.channel.epoll.EpollServerSocketChannel;
 
 public class SubstituteNettyClasses {
 }
@@ -37,7 +32,7 @@ final class Substitute_NettyTransport {
 
    @Substitute
    private Class<? extends ServerChannel> getServerSocketChannel() {
-      Class<? extends ServerChannel> channel = NioServerSocketChannel.class;
+      Class<? extends ServerChannel> channel = EpollServerSocketChannel.class;
       log.createdSocketChannel(channel.getName(), configuration.toString());
       return channel;
    }
@@ -45,7 +40,7 @@ final class Substitute_NettyTransport {
    @Substitute
    public static MultithreadEventLoopGroup buildEventLoop(int nThreads, ThreadFactory threadFactory,
          String configuration) {
-      MultithreadEventLoopGroup eventLoop = new NioEventLoopGroup(nThreads, threadFactory);
+      MultithreadEventLoopGroup eventLoop = new EpollEventLoopGroup(nThreads, threadFactory);
       log.createdNettyEventLoop(eventLoop.getClass().getName(), configuration);
       return eventLoop;
    }

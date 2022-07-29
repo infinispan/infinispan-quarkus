@@ -165,7 +165,9 @@ class InfinispanServerProcessor {
             "proto/generated/persistence.server_state.proto",
             "proto/generated/persistence.distribution.proto",
             "org/infinispan/query/remote/client/query.proto",
+            "META-INF/native/libnetty_transport_native_epoll_x86_64.so",
             WrappedMessage.PROTO_FILE
+
       ));
 
       // Add various classes required by the REST resources
