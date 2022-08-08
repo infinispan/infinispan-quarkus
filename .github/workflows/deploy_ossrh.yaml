@@ -19,7 +19,7 @@ jobs:
           server-id: ossrh
           server-username: ${{ secrets.OSSRH_USERNAME }}
           server-password: ${{ secrets.OSSRH_PASSWORD }}
-          gpg-private-key: ${{ secrets.INFINISPAN_MAVEN_GPG_BASE64 }}
+          gpg-private-key: ${{ secrets.INFINISPAN_MAVEN_GPG_ARMORED }}
           gpg-passphrase: ${{ secrets.INFINISPAN_MAVEN_GPG_PASSPHRASE }}
 
       - name: Publish to the Maven Central Repository
