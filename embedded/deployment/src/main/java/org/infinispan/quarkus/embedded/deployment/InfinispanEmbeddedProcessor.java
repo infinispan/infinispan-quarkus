@@ -157,7 +157,8 @@ class InfinispanEmbeddedProcessor {
 
         // Add a bunch of JGroups components
         addReflectionForClass(PropertyConverter.class, combinedIndex, reflectiveClass, excludedClasses);
-        addReflectionForClass(Bundler.class, combinedIndex, reflectiveClass, excludedClasses);
+        // Bundler fields can be invoked via configuration so add those methods
+        addReflectionForName(Bundler.class.getName(), Bundler.class.isInterface(), combinedIndex, reflectiveClass, false, true, excludedClasses);
         addReflectionForClass(LocalTransport.class, combinedIndex, reflectiveClass, excludedClasses);
         addReflectionForClass(MessageProcessingPolicy.class, combinedIndex, reflectiveClass, excludedClasses);
         reflectiveClass.produce(new ReflectiveClassBuildItem(true, true, DiagnosticsHandler.class));
