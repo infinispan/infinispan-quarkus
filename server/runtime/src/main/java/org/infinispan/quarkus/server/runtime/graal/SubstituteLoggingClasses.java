@@ -4,6 +4,8 @@ import org.infinispan.configuration.parsing.ConfigurationBuilderHolder;
 import org.infinispan.rest.RestServer;
 import org.infinispan.rest.framework.ResourceManager;
 import org.infinispan.rest.resources.LoggingResource;
+import org.infinispan.server.Bootstrap;
+import org.infinispan.server.BootstrapLogging;
 import org.infinispan.server.Server;
 import org.infinispan.server.core.admin.AdminServerTask;
 import org.infinispan.server.tasks.admin.LoggingRemoveTask;
@@ -39,6 +41,22 @@ final class Target_Server {
       // Do nothing
    }
 }
+
+@TargetClass(Bootstrap.class)
+final class Target_Bootstrap {
+   @Substitute
+   private static void staticInitializer() {
+      // Do nothing
+   }
+   @Substitute
+   protected void configureLogging() {
+      // Do nothing
+   }
+}
+
+@Delete
+@TargetClass(BootstrapLogging.class)
+final class Target_BootstrapLogging { }
 
 @TargetClass(ServerAdminOperationsHandler.class)
 final class Target_ServerAdminOperationsHandler {
