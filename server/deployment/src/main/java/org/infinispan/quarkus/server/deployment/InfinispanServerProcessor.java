@@ -16,9 +16,6 @@ import org.infinispan.lock.configuration.ClusteredLockManagerConfigurationBuilde
 import org.infinispan.manager.CacheManagerInfo;
 import org.infinispan.protostream.WrappedMessage;
 import org.infinispan.quarkus.embedded.deployment.InfinispanReflectionExcludedBuildItem;
-import org.infinispan.quarkus.server.runtime.InfinispanServerProducer;
-import org.infinispan.quarkus.server.runtime.InfinispanServerRecorder;
-import org.infinispan.quarkus.server.runtime.InfinispanServerRuntimeConfig;
 import org.infinispan.rest.RestServer;
 import org.infinispan.server.configuration.ServerConfigurationBuilder;
 import org.infinispan.server.core.configuration.ProtocolServerConfigurationBuilder;
@@ -69,7 +66,6 @@ class InfinispanServerProcessor {
    void extensionFeatureStuff(BuildProducer<FeatureBuildItem> feature, BuildProducer<AdditionalBeanBuildItem> additionalBeans,
                               BuildProducer<IndexDependencyBuildItem> indexedDependencies, BuildProducer<ExtensionSslNativeSupportBuildItem> sslNativeSupport) {
       feature.produce(new FeatureBuildItem(FEATURE_NAME));
-      additionalBeans.produce(AdditionalBeanBuildItem.unremovableOf(InfinispanServerProducer.class));
       sslNativeSupport.produce(new ExtensionSslNativeSupportBuildItem(FEATURE_NAME));
 
       for (String infinispanArtifact : Arrays.asList(
@@ -110,12 +106,6 @@ class InfinispanServerProcessor {
       excludedClasses.produce(new InfinispanReflectionExcludedBuildItem(DotName.createSimple("org.infinispan.persistence.remote.upgrade.MigrationTask$RemoveListener")));
 
       // TODO: exclude all the TerminalFunctions SerializeWith references
-   }
-
-   @Record(ExecutionTime.RUNTIME_INIT)
-   @BuildStep
-   void configureRuntimeProperties(InfinispanServerRecorder recorder, InfinispanServerRuntimeConfig infinispanServerRuntimeConfig) {
-      recorder.configureRuntimeProperties(infinispanServerRuntimeConfig);
    }
 
    @BuildStep
