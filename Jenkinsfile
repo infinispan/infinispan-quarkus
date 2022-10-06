@@ -25,9 +25,8 @@ pipeline {
         stage('Build') {
             steps {
                 // First we compile Infinispan SNAPSHOT
-                sh 'git clone --single-branch --branch main --depth 15 https://github.com/infinispan/infinispan.git'
+                sh 'git clone --single-branch --branch main --depth 1 https://github.com/infinispan/infinispan.git'
                 dir('infinispan') {
-                    sh 'git checkout b6384b6e47483927a27c7023ae979f523a241366'
                     sh '$MAVEN_HOME/bin/mvn clean install -DskipTests'
                     deleteDir()
                 }
