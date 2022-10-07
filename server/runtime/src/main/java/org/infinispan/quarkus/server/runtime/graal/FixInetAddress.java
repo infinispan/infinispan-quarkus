@@ -1,5 +1,6 @@
 package org.infinispan.quarkus.server.runtime.graal;
 
+import java.util.Collections;
 import java.util.List;
 
 import com.oracle.svm.core.annotate.Alias;
@@ -44,6 +45,6 @@ final class MultiHomedServerAddress {
    static org.infinispan.server.hotrod.MultiHomedServerAddress.InetAddressWithNetMask RFC4193_LINK_LOCAL;
 
    @Alias
-   @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.Reset)
-   static List<org.infinispan.server.hotrod.MultiHomedServerAddress.InetAddressWithNetMask> PRIVATE_NETWORKS;
+   @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
+   static List<org.infinispan.server.hotrod.MultiHomedServerAddress.InetAddressWithNetMask> PRIVATE_NETWORKS = Collections.emptyList();
 }
