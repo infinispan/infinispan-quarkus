@@ -29,6 +29,7 @@ public class RestCacheManagerResource {
    public static final InfinispanServerRule SERVERS =
          InfinispanServerRuleBuilder.config("configuration/ClusteredServerTest.xml")
                .numServers(2)
+               .property("infinispan.bind.address", "0.0.0.0")
                .build();
    @Rule
    public InfinispanServerTestMethodRule SERVER_TEST = new InfinispanServerTestMethodRule(SERVERS);
