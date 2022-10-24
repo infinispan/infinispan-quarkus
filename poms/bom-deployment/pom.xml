@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-quarkus-poms</artifactId>
-        <version>14.0.2-SNAPSHOT</version>
+        <version>14.0.3-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>infinispan-quarkus-bom-deployment</artifactId>
-    <version>14.0.2-SNAPSHOT</version>
+    <version>14.0.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Infinispan Quarkus :: Deployment BOM</name>
