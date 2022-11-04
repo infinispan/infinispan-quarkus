@@ -71,6 +71,17 @@
             <build>
                 <plugins>
                     <plugin>
+                        <groupId>org.sonatype.plugins</groupId>
+                        <artifactId>nexus-staging-maven-plugin</artifactId>
+                        <extensions>true</extensions>
+                        <configuration>
+                            <autoReleaseAfterClose>true</autoReleaseAfterClose>
+                            <stagingDescription>Infinispan Quarkus ${project.version} release</stagingDescription>
+                            <nexusUrl>${maven.releases.nexus.url}</nexusUrl>
+                            <serverId>${maven.releases.repo.id}</serverId>
+                        </configuration>
+                    </plugin>
+                    <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <executions>
