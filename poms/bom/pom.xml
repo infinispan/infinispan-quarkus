@@ -75,7 +75,16 @@
                 <artifactId>jgroups-raft</artifactId>
                 <version>${version.jgroups.raft}</version>
             </dependency>
-
+            <dependency>
+                <groupId>org.aesh</groupId>
+                <artifactId>aesh</artifactId>
+                <version>${version.aesh}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.aesh</groupId>
+                <artifactId>readline</artifactId>
+                <version>${version.aesh-readline}</version>
+            </dependency>
             <dependency>
                 <groupId>org.wildfly.security</groupId>
                 <artifactId>wildfly-elytron-auth-server-http</artifactId>
