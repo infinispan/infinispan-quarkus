@@ -5,13 +5,13 @@
     <parent>
         <artifactId>infinispan-quarkus-parent</artifactId>
         <groupId>org.infinispan</groupId>
-        <version>14.0.7-SNAPSHOT</version>
+        <version>14.0.8-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>infinispan-quarkus-integration-tests-parent</artifactId>
-    <version>14.0.7-SNAPSHOT</version>
+    <version>14.0.8-SNAPSHOT</version>
     <name>Infinispan Quarkus :: Integration Tests Parent</name>
 
     <packaging>pom</packaging>
