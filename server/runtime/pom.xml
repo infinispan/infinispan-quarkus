@@ -14,6 +14,10 @@
     <version>14.0.7-SNAPSHOT</version>
     <name>Infinispan Quarkus :: Server Runtime</name>
 
+    <properties>
+        <maven.compiler.release/>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <dependency>

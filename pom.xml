@@ -16,7 +16,10 @@
     <packaging>pom</packaging>
 
     <properties>
-        <quarkus.version>2.13.0.Final</quarkus.version>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
+        <quarkus.version>2.13.7.Final</quarkus.version>
         <exe.suffix/>
     </properties>
 
