@@ -56,8 +56,6 @@ class InfinispanServerProcessor {
    @BuildStep
    void setSystemProperties(BuildProducer<NativeImageSystemPropertyBuildItem> buildSystemProperties,
                             BuildProducer<SystemPropertyBuildItem> systemProperties) {
-      // We disable the replacement of JdkSslContext in the NettyExtensions - this shouldn't be needed once we move to Java 11
-      buildSystemProperties.produce(new NativeImageSystemPropertyBuildItem("substratevm.replacement.jdksslcontext", "false"));
       // Make sure to disable the logging endpoint in JVM mode as it won't work as Quarkus replaces log4j classes
       systemProperties.produce(new SystemPropertyBuildItem("infinispan.server.resource.logging", "false"));
    }

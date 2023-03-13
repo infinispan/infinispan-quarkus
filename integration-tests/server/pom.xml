@@ -172,7 +172,9 @@
                     <includes>
 <!--                        Disabled due to https://github.com/infinispan/infinispan-quarkus/issues/20-->
 <!--                        <include>org.infinispan.server.functional.RollingUpgradeIT</include>-->
-                        <include>org.infinispan.server.security.authentication.AuthenticationIT</include>
+                        <include>org.infinispan.server.security.authentication.*</include>
+                        <include>org.infinispan.server.security.AuthenticationTLSIT</include>
+                        <include>org.infinispan.server.security.TLSWithoutAuthenticationIT</include>
                         <include>org.infinispan.quarkus.server.*.class</include>
                     </includes>
                     <forkCount>0</forkCount>
