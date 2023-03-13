@@ -6,6 +6,7 @@ import java.util.concurrent.ConcurrentMap;
 import javax.naming.Context;
 import javax.naming.NamingException;
 import javax.naming.spi.InitialContextFactory;
+import javax.naming.spi.NamingManager;
 
 import org.infinispan.server.context.ServerInitialContextFactory;
 import org.infinispan.server.context.ServerInitialContextFactoryBuilder;
@@ -38,5 +39,16 @@ final class Target_ServerInitialContextFactoryBuilder {
          default:
             throw new NamingException("Native Infinispan Server does not support " + className + " as an InitialContextFactory");
       }
+   }
+}
+
+@TargetClass(NamingManager.class)
+final class Target_NamingManager {
+   @Substitute
+   private static InitialContextFactory getFactory(String className) {
+      if ("com.sun.jndi.dns.DnsContextFactory".equals(className)) {
+         return new DnsContextFactory();
+      }
+      throw new IllegalArgumentException("Native Infinispan Server does not support " + className + " as an InitialContextFactory");
    }
 }
