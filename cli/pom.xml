@@ -37,6 +37,12 @@
         <dependency>
             <groupId>org.infinispan</groupId>
             <artifactId>infinispan-cli-client</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>io.lettuce</groupId>
+                    <artifactId>lettuce-core</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.infinispan</groupId>
@@ -167,7 +173,7 @@
             </activation>
             <properties>
                 <quarkus.package.type>native</quarkus.package.type>
-                <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=../../src/main/native/cli_resources.json,-H:ReflectionConfigurationFiles=../cli_reflection.json\,../kube_reflection.json\,../batch_reflection.json\,../../src/main/native/cli.json</quarkus.native.additional-build-args>
+                <quarkus.native.additional-build-args>-H:ResourceConfigurationFiles=../../src/main/native/cli_resources.json,-H:ReflectionConfigurationFiles=../cli_reflection.json\,../kube_reflection.json\,../batch_reflection.json\,../../src/main/native/cli.json,--initialize-at-run-time=org.infinispan.cli.benchmark.RespBenchmark</quarkus.native.additional-build-args>
             </properties>
             <build>
                 <plugins>
