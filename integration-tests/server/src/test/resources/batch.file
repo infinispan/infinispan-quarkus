@@ -1,1 +1,0 @@
-create cache --template=org.infinispan.DIST_SYNC mybatch

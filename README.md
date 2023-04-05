@@ -1,18 +1,6 @@
 # infinispan-quarkus
-Infinispan Quarkus based extensions and Server
+Since Infinispan 15.0.x, the Infinispan Quarkus modules are part of the [Infinispan repository](http://github.com/infinispan/infinispan). 
 
-# How to build
+PRs should be issued against http://github.com/infinispan/infinispan.
 
-1. If you are using a non tagged version (e.g. main
-   ), ensure you have built
-the same version of Infinispan so that it is available in your maven repository.
-2. Download and extract the Java 17 version of GraalVM (>= 22.3) from
-https://github.com/graalvm/graalvm-ce-builds/releases
-for your distribution.
-3. Install `native-image` in the `bin` directory of the extracted graal
-runtime
-   * `gu install native-image`
-4. Set the `GRAALVM_HOME` environment variable to the extracted
-graal runtime
-5. Build the project
-   * `mvn clean install`
+This repository remains as an archive and to allow future releases for the 14.0.x branch while it remains supported. 
