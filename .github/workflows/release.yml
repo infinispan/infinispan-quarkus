@@ -6,7 +6,7 @@ on:
       branch:
         description: "The infinispan-quarkus branch to checkout when cutting the release."
         required: true
-        default: "main"
+        default: "14.0.x"
       infinispanVersion:
         description: "Infinispan version to use for the release."
         required: true
