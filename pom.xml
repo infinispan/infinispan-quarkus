@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-build-configuration-parent</artifactId>
-        <version>14.0.9-SNAPSHOT</version>
+        <version>14.0.9.Final</version>
         <relativePath/>
     </parent>
 
     <artifactId>infinispan-quarkus-parent</artifactId>
-    <version>14.0.9-SNAPSHOT</version>
+    <version>14.0.9.Final</version>
     <name>Infinispan Quarkus :: Parent pom</name>
     <packaging>pom</packaging>
 
