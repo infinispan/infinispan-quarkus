@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-quarkus-embedded-parent</artifactId>
-        <version>14.0.12.Final</version>
+        <version>14.0.13-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>infinispan-quarkus-embedded-deployment</artifactId>
-    <version>14.0.12.Final</version>
+    <version>14.0.13-SNAPSHOT</version>
     <name>Infinispan Quarkus :: Embedded Deployment</name>
 
     <dependencyManagement>
