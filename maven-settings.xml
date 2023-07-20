@@ -77,6 +77,20 @@
                 </pluginRepository>
             </pluginRepositories>
         </profile>
+        <profile>
+            <id>release</id>
+            <repositories>
+                <repository>
+                    <id>sonatype</id>
+                    <name>Nexus</name>
+                    <url>https://s01.oss.sonatype.org/content/groups/public</url>
+                    <snapshots>
+                        <enabled>true</enabled>
+                        <updatePolicy>never</updatePolicy>
+                    </snapshots>
+                </repository>
+            </repositories>
+        </profile>
     </profiles>
 
     <activeProfiles>
