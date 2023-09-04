@@ -6,12 +6,12 @@
     <parent>
         <groupId>org.infinispan</groupId>
         <artifactId>infinispan-quarkus-poms</artifactId>
-        <version>14.0.16-SNAPSHOT</version>
+        <version>14.0.16.Final</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <artifactId>infinispan-quarkus-bom-test</artifactId>
-    <version>14.0.16-SNAPSHOT</version>
+    <version>14.0.16.Final</version>
     <packaging>pom</packaging>
 
     <name>Infinispan Quarkus :: Test BOM</name>
