@@ -1,13 +1,13 @@
 package org.infinispan.quarkus.server;
 
 import org.infinispan.server.functional.ClusteredIT;
-import org.infinispan.server.functional.HotRodCacheOperations;
-import org.infinispan.server.functional.HotRodCounterOperations;
-import org.infinispan.server.functional.HotRodMultiMapOperations;
-import org.infinispan.server.functional.HotRodTransactionalCacheOperations;
-import org.infinispan.server.functional.RestOperations;
-import org.infinispan.server.functional.RestRouter;
-import org.infinispan.server.functional.RestServerResource;
+import org.infinispan.server.functional.hotrod.HotRodCacheOperations;
+import org.infinispan.server.functional.hotrod.HotRodCounterOperations;
+import org.infinispan.server.functional.hotrod.HotRodMultiMapOperations;
+import org.infinispan.server.functional.hotrod.HotRodTransactionalCacheOperations;
+import org.infinispan.server.functional.rest.RestOperations;
+import org.infinispan.server.functional.rest.RestRouter;
+import org.infinispan.server.functional.rest.RestServerResource;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
