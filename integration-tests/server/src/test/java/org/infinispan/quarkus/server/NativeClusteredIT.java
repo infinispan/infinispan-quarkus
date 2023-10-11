@@ -8,19 +8,19 @@ import org.infinispan.server.functional.hotrod.HotRodTransactionalCacheOperation
 import org.infinispan.server.functional.rest.RestOperations;
 import org.infinispan.server.functional.rest.RestRouter;
 import org.infinispan.server.functional.rest.RestServerResource;
-import org.junit.runner.RunWith;
-import org.junit.runners.Suite;
+import org.junit.platform.suite.api.SelectClasses;
+import org.junit.platform.suite.api.Suite;
 
 /**
- * We must extend {@link ClusteredIT} so that we can specify the test classes required in the suite. All of these
- * tests rely on {@code InfinispanServerRule SERVERS = ClusteredIT.SERVERS;}, so it's not possible to simply execute
- * them outside of a suite as the containers are shutdown after the first test class has completed.
+ * We must extend {@link ClusteredIT} so that we can specify the test classes required in the suite. All of these tests
+ * rely on {@code InfinispanServerRule SERVERS = ClusteredIT.SERVERS;}, so it's not possible to simply execute them
+ * outside of a suite as the containers are shutdown after the first test class has completed.
  *
  * @author Ryan Emerson
  * @since 11.0
  */
-@RunWith(Suite.class)
-@Suite.SuiteClasses({
+@Suite
+@SelectClasses({
       HotRodCacheOperations.class,
       HotRodCounterOperations.class,
       HotRodMultiMapOperations.class,
@@ -29,5 +29,5 @@ import org.junit.runners.Suite;
       RestRouter.class,
       RestServerResource.class
 })
-public class NativeClusteredIT extends ClusteredIT  {
+public class NativeClusteredIT extends ClusteredIT {
 }
