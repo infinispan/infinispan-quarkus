@@ -1,19 +1,18 @@
 package org.infinispan.quarkus.server;
 
+import static org.infinispan.server.test.core.AbstractInfinispanServerDriver.abbreviate;
 import static org.infinispan.server.test.core.Common.sync;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.infinispan.client.rest.RestCacheManagerClient;
 import org.infinispan.client.rest.RestClient;
 import org.infinispan.client.rest.RestResponse;
-import org.infinispan.server.test.junit4.InfinispanServerRule;
-import org.infinispan.server.test.junit4.InfinispanServerRuleBuilder;
-import org.infinispan.server.test.junit4.InfinispanServerTestMethodRule;
-import org.junit.ClassRule;
-import org.junit.Rule;
-import org.junit.Test;
+import org.infinispan.server.test.junit5.InfinispanServerExtension;
+import org.infinispan.server.test.junit5.InfinispanServerExtensionBuilder;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.RegisterExtension;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -25,14 +24,12 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
  */
 public class RestCacheManagerResource {
 
-   @ClassRule
-   public static final InfinispanServerRule SERVERS =
-         InfinispanServerRuleBuilder.config("configuration/ClusteredServerTest.xml")
+   @RegisterExtension
+   public static final InfinispanServerExtension SERVERS =
+         InfinispanServerExtensionBuilder.config("configuration/ClusteredServerTest.xml")
                .numServers(2)
                .property("infinispan.bind.address", "0.0.0.0")
                .build();
-   @Rule
-   public InfinispanServerTestMethodRule SERVER_TEST = new InfinispanServerTestMethodRule(SERVERS);
 
    private final ObjectMapper mapper = new ObjectMapper();
 
@@ -51,7 +48,7 @@ public class RestCacheManagerResource {
       JsonNode root = mapper.readTree(restResponse.getBody());
 
       JsonNode clusterHealth = root.get("cluster_health");
-      assertEquals(RestCacheManagerResource.class.getName(), clusterHealth.get("cluster_name").asText());
+      assertEquals(abbreviate(RestCacheManagerResource.class.getName()), clusterHealth.get("cluster_name").asText());
       assertEquals("HEALTHY", clusterHealth.get("health_status").asText());
       assertEquals(2, clusterHealth.get("number_of_nodes").asInt());
       assertEquals(2, clusterHealth.withArray("node_names").size());
@@ -76,7 +73,7 @@ public class RestCacheManagerResource {
 
    @Test
    public void testCacheInfo() throws Exception {
-      RestClient client = SERVER_TEST.rest().create();
+      RestClient client = SERVERS.rest().create();
       String cacheName = "test";
       RestResponse restResponse = sync(client.cache(cacheName).createWithTemplate("org.infinispan.LOCAL"));
       assertEquals(200, restResponse.getStatus());
@@ -103,6 +100,6 @@ public class RestCacheManagerResource {
    }
 
    private RestCacheManagerClient client() {
-      return SERVER_TEST.rest().create().cacheManager("default");
+      return SERVERS.rest().create().cacheManager("default");
    }
 }
