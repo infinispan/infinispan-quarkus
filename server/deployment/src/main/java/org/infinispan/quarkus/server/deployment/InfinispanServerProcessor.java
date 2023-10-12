@@ -12,6 +12,7 @@ import org.infinispan.anchored.configuration.AnchoredKeysConfigurationBuilder;
 import org.infinispan.commands.module.ModuleCommandExtensions;
 import org.infinispan.commons.util.JVMMemoryInfoInfo;
 import org.infinispan.configuration.internal.PrivateGlobalConfigurationBuilder;
+import org.infinispan.counter.configuration.CounterManagerConfigurationBuilder;
 import org.infinispan.lock.configuration.ClusteredLockManagerConfigurationBuilder;
 import org.infinispan.manager.CacheManagerInfo;
 import org.infinispan.protostream.WrappedMessage;
@@ -21,6 +22,7 @@ import org.infinispan.server.configuration.ServerConfigurationBuilder;
 import org.infinispan.server.core.configuration.ProtocolServerConfigurationBuilder;
 import org.infinispan.server.hotrod.HotRodServer;
 import org.infinispan.server.memcached.MemcachedServer;
+import org.infinispan.server.resp.Resp3AuthHandler;
 import org.infinispan.server.resp.Resp3Handler;
 import org.infinispan.server.resp.RespServer;
 import org.infinispan.server.resp.configuration.RespServerConfigurationBuilder;
@@ -37,8 +39,6 @@ import io.netty.handler.codec.http2.Http2ServerUpgradeCodec;
 import io.quarkus.arc.deployment.AdditionalBeanBuildItem;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
-import io.quarkus.deployment.annotations.ExecutionTime;
-import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.ExtensionSslNativeSupportBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
@@ -127,6 +127,7 @@ class InfinispanServerProcessor {
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, MemcachedServer.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RestServer.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RespServer.class));
+      reflectionClass.produce(new ReflectiveClassBuildItem(false   , false, "org.infinispan.server.core.logging.Log_$logger"));
 
       // We instantiate this during logging initialization
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, "org.apache.logging.log4j.message.ReusableMessageFactory"));
@@ -194,6 +195,7 @@ class InfinispanServerProcessor {
       };
       reflectionClass.produce(new ReflectiveClassBuildItem(true, false, elytronClasses));
 
+      reflectionClass.produce(new ReflectiveClassBuildItem(false, false, CounterManagerConfigurationBuilder.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, AnchoredKeysConfigurationBuilder.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, ClusteredLockManagerConfigurationBuilder.class));
       reflectionClass.produce(new ReflectiveClassBuildItem(false, false, RespServerConfigurationBuilder.class));
