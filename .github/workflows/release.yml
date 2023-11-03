@@ -32,12 +32,12 @@ jobs:
 
     steps:
       - name: Checkout Source
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.inputs.branch }}
 
       - name: Cache local Maven repository
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -46,7 +46,7 @@ jobs:
 
       - uses: graalvm/setup-graalvm@v1
         with:
-          version: '22.3.0'
+          version: '22.3.2'
           java-version: '17'
           components: 'native-image'
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -71,7 +71,7 @@ jobs:
       - name: Build release
         run: |
           git checkout ${{ github.event.inputs.releaseVersion }}
-          mvn package -s maven-settings.xml -DskipTests=true -Prelease
+          ./mvnw package -s maven-settings.xml -DskipTests=true -Prelease
           git checkout  ${{ github.event.inputs.branch }}
 
       - name: Push changes
@@ -113,7 +113,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE
 
       - name: Publish to OSSRH
-        run: mvn -B deploy -Prelease -Pcommunity-release -DskipTests -Dmaven.javadoc.skip=true -P \!native -pl \!integration-tests/server
+        run: ./mvnw -B deploy -Prelease -Pcommunity-release -DskipTests -Dmaven.javadoc.skip=true -P \!native -pl \!integration-tests/server
         env:
           MAVEN_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           MAVEN_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
