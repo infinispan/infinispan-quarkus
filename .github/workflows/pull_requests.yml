@@ -47,7 +47,7 @@ jobs:
       with:
         repository: infinispan/infinispan
         path: infinispan
-        ref: 14.0.x
+        ref: 14.0.20.Final
 
     - name: Cache local Maven repository
       uses: actions/cache@v3
