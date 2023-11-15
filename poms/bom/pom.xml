@@ -17,6 +17,10 @@
 
     <name>Infinispan Quarkus :: BOM</name>
 
+    <properties>
+        <version.org.wildfly.elytron>1.20.3.Final</version.org.wildfly.elytron>
+    </properties>
+
     <dependencyManagement>
         <dependencies>
             <!-- External BOMs (Must come first so we can override as needed below) -->
